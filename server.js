@@ -21,6 +21,29 @@ app.get('/', (req, res) => {
 	res.sendFile('views/index.html', { root: __dirname });
 });
 
+//Get all Project with Populate
+app.get('/api/projects', (req, res)=>{
+    db.Project.find()
+    .populate('task_list')
+    .exec((err, project)=>{
+        if (err) return console.log(`error: ${err}`);
+        res.json(project)
+    });
+});
+
+//Get one project with Populate
+app.get('/api/projects/:id', (req,res)=>{
+    db.Project.findById(req.params.id)
+    .populate('task_list')
+    .exec((err, project)=>{
+        if (err) return res.status(400);
+        res.json(project)
+    });
+});
+
+
+
+
 
 
 
