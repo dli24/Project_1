@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     name: String,
-    task: {
+    task_list: [{
         type: Schema.Types.ObjectId,
         ref: 'Task'
-    }
+    }]
 })
 
 const User = mongoose.model('User', UserSchema)
