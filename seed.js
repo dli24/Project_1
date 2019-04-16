@@ -4,32 +4,35 @@ const project_list = [
     {
         name: "Project Testing 1",
         task: "task list Testing 1",
-        date: 01/02/1992
+        date: '1992-05-12'
     },
     {
         name: "Project Testing 2",
         task: "task list Testing 2",
-        date: 01/02/1993
+        date: '1992-12-12'
     },
     {
         name: "Project Testing 3",
         task: "task list Testing 3",
-        date: 01/02/1991
+        date: '1993-12-12'
     }
 ]
 
 const task_list = [
     {
         name: "task list Testing 1",
-        description: "description testing 1"
+        description: "description testing 1",
+        status: "grey"
     },
     {
         name: "task list Testing 2",
-        description: "description testing 2"
+        description: "description testing 2",
+        status: "red"
     },
     {
         name: "task list Testing 3",
-        description: "description testing 3"
+        description: "description testing 3",
+        status: "gold"
     }
 ]
 

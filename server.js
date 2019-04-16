@@ -25,12 +25,8 @@ app.get('/responsibilities', (req, res) => {
 	res.sendFile('views/responsibilities.html', { root: __dirname });
 });
 
+// ================================FOR THE PROJECT CRUD===================================================
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> sprint_1
 //Get all Project with Populate
 app.get('/api/projects', (req, res)=>{
     db.Project.find()
@@ -40,6 +36,7 @@ app.get('/api/projects', (req, res)=>{
         res.json(project)
     });
 });
+
 
 //Get one project with Populate
 app.get('/api/projects/:id', (req,res)=>{
@@ -79,10 +76,6 @@ db.Task.findOne({name: req.body.task}, (err,task)=>{
 });
 
 
-
-
-
-
 //update project with populate
 app.put('/api/projects/:id', (req,res)=>{
     db.Project.findByIdAndUpdate(req.params.id, req.body, {new: true})
@@ -102,7 +95,82 @@ app.delete('/api/projects/:id', (req,res)=>{
         res.json(deletedProject)
     });
 });
+// ===================================TASK CRUD ========================================
+//Get all Task with Populate
+app.get('/api/projects/:project_id/tasks', (req, res)=>{
+    db.Task.find()
+    .populate('user')
+    .exec((err, task)=>{
+        if (err) return console.log(`error: ${err}`);
+        res.json(task)
+    });
+});
 
+
+//Get one task with Populate
+app.get('/api/projects/:project_id/tasks/:id', (req,res)=>{
+    db.Task.findById(req.params.id)
+    .populate('user')
+    .exec((err, task)=>{
+        if (err) return res.status(400);
+        res.json(task)
+    });
+});
+
+//create new tasks and user
+app.post('/api/projects/:project_id/tasks', (req,res)=>{
+    const newTask = new db.Task({
+        name: req.body.name,
+        description: req.body.description,
+        status: req.body.status
+    });
+db.User.findOne({name: req.body.user}, (err,user)=>{
+    if (err) return res.json({error: err});
+    if (user === null) {
+        db.User.create({name: req.body.user}, (err, newUser)=>{
+            if (err) return console.log("error existssss");
+            newTask.user = newUser
+            newTask.save((err, savedTask)=>{
+                if (err) return (err);
+                res.json(savedTask)
+            });
+        })
+    } else {
+        newtask.user = user;
+        newTask.save((err, savedTask)=>{
+            if (err) return (err)
+            res.json(savedTask);
+      });
+    };
+  });
+});
+
+
+//update task with populate
+app.put('/api/projects/:project_id/tasks/:id', (req,res)=>{
+    db.Task.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .populate('user')
+    .exec((err, updateTask) =>{
+        if (err) return res.status(400);
+            res.json(updateTask)
+    });
+});
+
+//delete task with populate
+app.delete('/api/projects/:project_id/tasks/:id', (req,res)=>{
+    db.Task.findByIdAndRemove(req.params.id)
+    .populate('user')
+    .exec((err, deletedTask)=>{
+        if(err) return res.status(400);
+        res.json(deletedTask)
+    });
+});
+
+
+
+
+
+//===================================USER CRUD===========================================
 
 
 
