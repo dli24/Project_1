@@ -21,6 +21,11 @@ app.get('/', (req, res) => {
 	res.sendFile('views/index.html', { root: __dirname });
 });
 
+app.get('/responsibilities', (req, res) => {
+	res.sendFile('views/responsibilities.html', { root: __dirname });
+});
+
+
 //Get all Project with Populate
 app.get('/api/projects', (req, res)=>{
     db.Project.find()
