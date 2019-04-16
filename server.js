@@ -48,6 +48,7 @@ app.get('/api/projects/:id', (req,res)=>{
     });
 });
 
+
 //create new projects and new task
 app.post('/api/projects', (req,res)=>{
     const newProject = new db.Project({
@@ -96,10 +97,10 @@ app.delete('/api/projects/:id', (req,res)=>{
     });
 });
 // ===================================TASK CRUD ========================================
-//Get all Task with Populate
+// Get all Task with Populate
 app.get('/api/projects/:project_id/tasks', (req, res)=>{
     db.Task.find()
-    .populate('user')
+    .populate('project')
     .exec((err, task)=>{
         if (err) return console.log(`error: ${err}`);
         res.json(task)
@@ -110,12 +111,16 @@ app.get('/api/projects/:project_id/tasks', (req, res)=>{
 //Get one task with Populate
 app.get('/api/projects/:project_id/tasks/:id', (req,res)=>{
     db.Task.findById(req.params.id)
-    .populate('user')
+    .populate('project')
     .exec((err, task)=>{
         if (err) return res.status(400);
         res.json(task)
     });
 });
+
+
+
+
 
 //create new tasks and user
 app.post('/api/projects/:project_id/tasks', (req,res)=>{
@@ -124,19 +129,20 @@ app.post('/api/projects/:project_id/tasks', (req,res)=>{
         description: req.body.description,
         status: req.body.status
     });
-db.User.findOne({name: req.body.user}, (err,user)=>{
+    db.Project.findOne({id: req.params._id}, (err,project)=>{
+        console.log(project);
     if (err) return res.json({error: err});
-    if (user === null) {
-        db.User.create({name: req.body.user}, (err, newUser)=>{
+    if (project === null) {
+        db.Project.create({id: req.params._id}, (err, newProject)=>{
             if (err) return console.log("error existssss");
-            newTask.user = newUser
+            newTask.project = newProject
             newTask.save((err, savedTask)=>{
                 if (err) return (err);
                 res.json(savedTask)
             });
         })
     } else {
-        newtask.user = user;
+        newTask.project = project;
         newTask.save((err, savedTask)=>{
             if (err) return (err)
             res.json(savedTask);
@@ -146,7 +152,10 @@ db.User.findOne({name: req.body.user}, (err,user)=>{
 });
 
 
-//update task with populate
+
+
+
+// update task with populate
 app.put('/api/projects/:project_id/tasks/:id', (req,res)=>{
     db.Task.findByIdAndUpdate(req.params.id, req.body, {new: true})
     .populate('user')
@@ -155,6 +164,8 @@ app.put('/api/projects/:project_id/tasks/:id', (req,res)=>{
             res.json(updateTask)
     });
 });
+
+
 
 //delete task with populate
 app.delete('/api/projects/:project_id/tasks/:id', (req,res)=>{
@@ -171,6 +182,33 @@ app.delete('/api/projects/:project_id/tasks/:id', (req,res)=>{
 
 
 //===================================USER CRUD===========================================
+//Get all Users
+// app.use('/api/users', (req,res)=>{
+//     db.User.find()
+//     .exec((err, user)=>{
+//         if (err){
+//             res.status(500).send(err)
+//         }
+//         res.json(user)
+//     })
+// })
+
+// Get one User
+// app.get('/api/users/:id', (req, res) => {
+// 	let userId = req.params.id;
+// 	db.User.findOne({ _id: userId }).exec((err, foundUser) => {
+// 		if (err) {
+// 			return console.log(err);
+// 		}
+// 		res.json(foundUser);
+// 	});
+// });
+
+// create User
+// app.post('api/')
+
+
+
 
 
 
