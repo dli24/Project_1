@@ -1,8 +1,77 @@
+/* * {
+    border: 1px solid red;
+} */
+
 body {
-    background: violet;
+    background: url('../images/abstract-dark-red-watercolor-background-450w-637358260.jpg');
+    /* background-color: #cccccc; Used if the image is unavailable */
+    height: 100vh; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
 }
 
 header {
-    height: 100px;
+    height: 10vh;
+    width: 100vw;
+
+}
+
+.user-btns  {
+    display: flex;
+    width: 50vw;
+    margin: auto;
+    justify-content: space-between;
+    border-radius: 40%; 
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.side {
+    width: 100px;
+}
+
+.left-side {
+    display: flex;
+    flex-flow: column;
+}
+
+.button-control {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 40vh;
+}
+
+.btn-circle {
+    background: green;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+}
+
+.main-screen {
+    width: 100vw;
+    height: 80vh;
+    background: lightgoldenrodyellow;
+    border-radius: 5vw;
+    border: 5px solid grey;
+    box-shadow: 1px 1px 1px darkred;
+}
+
+.container, .row {
+    height: 100%;
+    width: 100%;
+}
+
+
+
+footer {
+    height: 10vh;
     width: 100vw;
 }
+
