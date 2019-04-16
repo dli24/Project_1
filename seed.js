@@ -3,15 +3,18 @@ const db = require('./models')
 const project_list = [
     {
         name: "Project Testing 1",
-        task_list: "task list Testing 1"
+        task: "task list Testing 1",
+        date: 01/02/1992
     },
     {
         name: "Project Testing 2",
-        task_list: "task list Testing 2"
+        task: "task list Testing 2",
+        date: 01/02/1993
     },
     {
         name: "Project Testing 3",
-        task_list: "task list Testing 3"
+        task: "task list Testing 3",
+        date: 01/02/1991
     }
 ]
 
@@ -40,7 +43,8 @@ db.Task.deleteMany({}, function(err, tasks){
             return;
         }
         console.log("create", tasks, "tasks")
-    })
+        console.log("create", tasks.length, "task")
+    
 
     db.Project.deleteMany({}, function(err, projects){
         console.log('removed all project');
@@ -50,7 +54,7 @@ db.Task.deleteMany({}, function(err, tasks){
                 date: projectData.date
             });
         db.Task.findOne({name: projectData.task}, function(err, foundTask){
-                if(err){
+                if (err){
                     console.log(err);
                     return;
                 }
@@ -64,4 +68,5 @@ db.Task.deleteMany({}, function(err, tasks){
        });
      });
    });
+ });
 });
