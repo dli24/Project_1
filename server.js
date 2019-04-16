@@ -129,26 +129,20 @@ app.post('/api/projects/:project_id/tasks', (req,res)=>{
         description: req.body.description,
         status: req.body.status
     });
-    db.Project.findOne({id: req.params._id}, (err,project)=>{
+    db.Project.findOne({_id: req.params.project_id},(err,project)=>{
         console.log(project);
-    if (err) return res.json({error: err});
-    if (project === null) {
-        db.Project.create({id: req.params._id}, (err, newProject)=>{
-            if (err) return console.log("error existssss");
-            newTask.project = newProject
-            newTask.save((err, savedTask)=>{
-                if (err) return (err);
-                res.json(savedTask)
-            });
-        })
-    } else {
-        newTask.project = project;
+        if (err) return res.json({error: err});   
         newTask.save((err, savedTask)=>{
-            if (err) return (err)
-            res.json(savedTask);
-      });
-    };
-  });
+            if (err) {return (err)};
+            project.task.push(savedTask);
+            project.save((err, savedProject)=>{
+                console.log(project);
+                res.json(savedTask);
+            })
+            
+        });
+    // }
+    });
 });
 
 
