@@ -26,6 +26,11 @@ app.get('/responsibilities', (req, res) => {
 });
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> sprint_1
 //Get all Project with Populate
 app.get('/api/projects', (req, res)=>{
     db.Project.find()
