@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/responsibilities.css">
+    <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script defer src="/scripts/jquery-ui.min.js"></script>
+    <script defer src="/scripts/responsibilities.js"></script>
+    <title>Respawn</title>
+</head>
+<body>
+    <ul class="nav nav-pills">
+        <button type="button" id="newTask" class="btn btn-secondary btn-lg">create new task</button>
+        <button type="button" id="hideNonAssigned" class="btn btn-secondary btn-lg">your tasks only</button>
+        <button type="button" class="btn btn-secondary btn-sm nametag">user_1</button>
+        <button type="button" class="btn btn-secondary btn-sm nametag">user_2</button>
+        <button type="button" class="btn btn-secondary btn-sm nametag">user_3</button>
+        <button type="button" class="btn btn-secondary btn-sm nametag">user_4</button>
+    </ul>
+    <div class="button-control">
+        <button class="btn btn-default btn-circle btn-xl" data-toggle="tooltip" data-placement="right" title="Connects to the outline"><i class="fa fa-list"></i></button>
+        <button class="btn btn-default btn-circle btn-xl" data-toggle="tooltip" data-placement="right" title="Tooltips as placeholders"><i class="fa fa-list"></i></button>
+        <button class="btn btn-default btn-circle btn-xl" data-toggle="tooltip" data-placement="right" title="Third Button"><i class="fa fa-list"></i></button>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <ul class="task-list" id="taskList">
+                  <li class="list-item list-item-4" id="listItem4">
+                      <div class="flex-control"></div>
+                      <h5 class="task-name" id="taskName">wow cools man</h5>
+                      <button type="button" class="btn btn-warning" >accept task</button>
+
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#theModal">more info</button>
+                    </li>
+                    <li class="list-item list-item-1" id="listItem1">
+                      <div class="flex-control"></div>
+                      <h5 class="task-name" id="taskName">jsut a div</h5>
+                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    </li>
+                    <li class="list-item list-item-2" id="listItem2">
+                      <div class="flex-control"></div>
+                      <h5 class="task-name" id="taskName">another task</h5>
+                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    </li>
+                    <li class="list-item list-item-3" id="listItem3">
+                      <div class="flex-control"></div>
+                      <h5 class="task-name" id="taskName">doing it </h5>
+                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    </li>
+                    <li class="list-item list-item-5" id="listItem5">
+                      <div class="flex-control"></div>
+                      <h5 class="task-name" id="taskName">ikea monopoly</h5>
+                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    </li>
+                    <li class="list-item list-item-6" id="listItem6">
+                      <div class="flex-control"></div>
+                      <h5 class="task-name" id="taskName">jurisprudence</h5>
+                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    </li>
+                    <li class="list-item list-item-7" id="listItem7">
+                      <div class="flex-control"></div>
+                      <h5 class="task-name" id="taskName">judas priestess</h5>
+                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    </li>
+                    <li class="list-item list-item-8" id="listItem8">
+                      <div class="flex-control"></div>
+                      <h5 class="task-name" id="taskName">manapaly money</h5>
+                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    </li>
+                    <li class="list-item list-item-9" id="listItem9">
+                      <div class="flex-control"></div>
+                      <h5 class="task-name" id="taskName">orgot thatchner</h5>
+                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    </li>
+                    <li class="list-item list-item-10" id="listItem10">
+                      <div class="flex-control"></div>
+                      <h5 class="task-name" id="taskName">toodaloo lulu</h5>
+                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    </li>
+                    <li class="list-item list-item-11" id="listItem11">
+                      <div class="flex-control"></div>
+                      <h5 class="task-name" id="taskName">yam tam pam shazam</h5>
+                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    </li>
+                    <li class="list-item list-item-12" id="listItem12">
+                      <div class="flex-control"></div>
+                      <h5 class="task-name" id="taskName">get busy tasking</h5>
+                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="progress-barea">do not expect a progress bar :)</div>
+        <div class="copyw">@ 2019 david justin zack</div>
+    </footer>
+
+    <div class="modal fade" id="theModal" tabindex="-1" role="dialog" aria-labelledby="notSURE BBUT DO IT " aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalTitle">${this will be dynamic</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ${this will also be dynamic}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Accept Task</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+</body>
+</html>
