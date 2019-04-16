@@ -31,6 +31,7 @@ app.get('/responsibilities', (req, res) => {
 app.get('/api/projects', (req, res)=>{
     db.Project.find()
     .populate('task')
+    .populate('user')
     .exec((err, project)=>{
         if (err) return console.log(`error: ${err}`);
         res.json(project)
@@ -42,6 +43,7 @@ app.get('/api/projects', (req, res)=>{
 app.get('/api/projects/:id', (req,res)=>{
     db.Project.findById(req.params.id)
     .populate('task')
+    .populate('user')
     .exec((err, project)=>{
         if (err) return res.status(400);
         res.json(project)
@@ -50,14 +52,11 @@ app.get('/api/projects/:id', (req,res)=>{
 
 
 //create new projects and new task
-app.post('/api/projects', (req,res)=>{
+app.post('/api/projects', (req,res)=>{  
     const newProject = new db.Project({
         name: req.body.name,
-        date: req.body.date
+        date: req.body.date,
     });
-
-
-
 
 
 db.Task.findOne({name: req.body.task}, (err,task)=>{
@@ -198,6 +197,7 @@ app.get('/api/projects/:project_id/users/:id', (req,res)=>{
 })
 
 // create User
+
 app.post('/api/projects/:project_id/users', (req, res)=>{
     const newUser = new db.User({
         name: req.body.name,
@@ -215,8 +215,27 @@ app.post('/api/projects/:project_id/users', (req, res)=>{
     })
 })
 
+// update user with populate
+app.put('/api/projects/:project_id/users/:id', (req,res)=>{
+    db.User.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .populate('project')
+    .exec((err, updateUser) =>{
+        if (err) return res.status(400);
+            res.json(updateUser)
+    });
+});
 
 
+
+//delete user with populate
+app.delete('/api/projects/:project_id/users/:id', (req,res)=>{
+    db.User.findByIdAndRemove(req.params.id)
+    .populate('project')
+    .exec((err, deletedUser)=>{
+        if(err) return res.status(400);
+        res.json(deletedUser)
+    });
+});
 
 
 

@@ -6,7 +6,8 @@ const ProjectSchema = new Schema({
     date: Date,
     task: [{
         type: Schema.Types.ObjectId,
-        ref: 'Task'
+        ref: 'Task',
+        default: ()=> {return null;}
     }],
     user: [{
         type: Schema.Types.ObjectId,
