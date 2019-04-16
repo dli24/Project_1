@@ -52,32 +52,58 @@ app.get('/api/projects/:id', (req,res)=>{
 
 
 //create new projects and new task
-app.post('/api/projects', (req,res)=>{  
+// app.post('/api/projects', (req,res)=>{  
+//     const newProject = new db.Project({
+//         name: req.body.name,
+//         date: req.body.date,
+//     });
+
+
+// db.Task.findOne({name: req.body.task}, (err,task)=>{
+//     if (err) return res.json({error: err});
+//     if (task === null) {
+//         db.Task.create({name: req.body.task}, (err, newTask)=>{
+//             if (err) return console.log("error existssss");
+//             newProject.task = newTask
+//             newProject.save((err, savedProject)=>{
+//                 if (err) return (err);
+//                 res.json(savedProject)
+//             });
+//         })
+//     } else {
+//         newProject.task = task;
+//         newProject.save((err, savedProject)=>{
+//             if (err) return (err)
+//             res.json(savedProject);
+//       });
+//     };
+//   });
+// });
+app.post('/api/projects', (req,res)=>{
     const newProject = new db.Project({
         name: req.body.name,
-        date: req.body.date,
+        date: req.body.date
     });
 
-
-db.Task.findOne({name: req.body.task}, (err,task)=>{
-    if (err) return res.json({error: err});
-    if (task === null) {
-        db.Task.create({name: req.body.task}, (err, newTask)=>{
-            if (err) return console.log("error existssss");
-            newProject.task = newTask
-            newProject.save((err, savedProject)=>{
-                if (err) return (err);
-                res.json(savedProject)
+    // db.User.findOne({name: req.body.user}, (err, user)=>{
+        // if (err) return res.json({error: err});
+        // if(user === null){
+            db.User.create({name: req.body.user}, (err, newUser)=>{
+                if (err) return console.log("error exist here");
+                newProject.user = newUser;
+                newProject.save((err, savedProject)=>{
+                    if(err) return (err);
+                    res.json(savedProject)
+                });
             });
-        })
-    } else {
-        newProject.task = task;
-        newProject.save((err, savedProject)=>{
-            if (err) return (err)
-            res.json(savedProject);
-      });
-    };
-  });
+        // }else{
+        //     newProject.user = user;
+        //     newProject.save((err, savedProject)=>{
+        //         if (err) return (err)
+        //         res.json(savedProject)
+        //     });
+        // };
+    // });
 });
 
 
