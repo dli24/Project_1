@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 const db = require('./models');
 
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -13,7 +14,6 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
-
 
 app.use(express.static(__dirname + '/public'));
 
@@ -25,7 +25,7 @@ app.get('/responsibilities', (req, res) => {
 	res.sendFile('views/responsibilities.html', { root: __dirname });
 });
 
-// ================================FOR THE PROJECT CRUD===================================================
+// =============================Project Route================================
 
 //Get all Project with Populate
 app.get('/api/projects', (req, res)=>{
@@ -55,6 +55,11 @@ app.post('/api/projects', (req,res)=>{
         name: req.body.name,
         date: req.body.date
     });
+
+
+
+
+
 db.Task.findOne({name: req.body.task}, (err,task)=>{
     if (err) return res.json({error: err});
     if (task === null) {
@@ -96,7 +101,7 @@ app.delete('/api/projects/:id', (req,res)=>{
         res.json(deletedProject)
     });
 });
-// ===================================TASK CRUD ========================================
+// =========================TASK ROUTE========================================
 // Get all Task with Populate
 app.get('/api/projects/:project_id/tasks', (req, res)=>{
     db.Task.find()
@@ -119,10 +124,7 @@ app.get('/api/projects/:project_id/tasks/:id', (req,res)=>{
 });
 
 
-
-
-
-//create new tasks and user
+//create multiple task for one project
 app.post('/api/projects/:project_id/tasks', (req,res)=>{
     const newTask = new db.Task({
         name: req.body.name,
@@ -136,7 +138,6 @@ app.post('/api/projects/:project_id/tasks', (req,res)=>{
             if (err) {return (err)};
             project.task.push(savedTask);
             project.save((err, savedProject)=>{
-                console.log(project);
                 res.json(savedTask);
             })
             
@@ -146,13 +147,10 @@ app.post('/api/projects/:project_id/tasks', (req,res)=>{
 });
 
 
-
-
-
 // update task with populate
 app.put('/api/projects/:project_id/tasks/:id', (req,res)=>{
     db.Task.findByIdAndUpdate(req.params.id, req.body, {new: true})
-    .populate('user')
+    .populate('project')
     .exec((err, updateTask) =>{
         if (err) return res.status(400);
             res.json(updateTask)
@@ -164,7 +162,7 @@ app.put('/api/projects/:project_id/tasks/:id', (req,res)=>{
 //delete task with populate
 app.delete('/api/projects/:project_id/tasks/:id', (req,res)=>{
     db.Task.findByIdAndRemove(req.params.id)
-    .populate('user')
+    .populate('project')
     .exec((err, deletedTask)=>{
         if(err) return res.status(400);
         res.json(deletedTask)
@@ -177,29 +175,50 @@ app.delete('/api/projects/:project_id/tasks/:id', (req,res)=>{
 
 //===================================USER CRUD===========================================
 //Get all Users
-// app.use('/api/users', (req,res)=>{
-//     db.User.find()
-//     .exec((err, user)=>{
-//         if (err){
-//             res.status(500).send(err)
-//         }
-//         res.json(user)
-//     })
-// })
+app.get('/api/projects/:project_id/users', (req, res)=>{
+    db.User.find()
+    .populate('project')
+    .exec((err, user)=>{
+        if (err) return console.log(`error: ${err}`);
+        res.json(user)
+    });
+});
 
 // Get one User
-// app.get('/api/users/:id', (req, res) => {
-// 	let userId = req.params.id;
-// 	db.User.findOne({ _id: userId }).exec((err, foundUser) => {
-// 		if (err) {
-// 			return console.log(err);
-// 		}
-// 		res.json(foundUser);
-// 	});
-// });
+app.get('/api/projects/:project_id/users/:id', (req,res)=>{
+    db.User.findById(req.params.id)
+    .populate('project')
+    .exec((err, user) => {
+        if (err) return res.status(400).json({msg: 'User Id does not exist'})
+        res.json(user);
+    })
+
+
+
+})
 
 // create User
-// app.post('api/')
+app.post('/api/projects/:project_id/users', (req, res)=>{
+    const newUser = new db.User({
+        name: req.body.name,
+        color: req.body.color
+    })
+    db.Project.findOne({_id: req.params.project_id}, (err, project)=>{
+        if (err) return res.json({error: err});
+        newUser.save((err, savedUser)=>{
+            if(err) {return (err)};
+            project.user.push(savedUser);
+            project.save((err, savedProject)=>{
+                res.json(savedUser)
+            })
+        })
+    })
+})
+
+
+
+
+
 
 
 
