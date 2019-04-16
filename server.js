@@ -21,6 +21,83 @@ app.get('/', (req, res) => {
 	res.sendFile('views/index.html', { root: __dirname });
 });
 
+app.get('/responsibilities', (req, res) => {
+	res.sendFile('views/responsibilities.html', { root: __dirname });
+});
+
+
+//Get all Project with Populate
+app.get('/api/projects', (req, res)=>{
+    db.Project.find()
+    .populate('task')
+    .exec((err, project)=>{
+        if (err) return console.log(`error: ${err}`);
+        res.json(project)
+    });
+});
+
+//Get one project with Populate
+app.get('/api/projects/:id', (req,res)=>{
+    db.Project.findById(req.params.id)
+    .populate('task')
+    .exec((err, project)=>{
+        if (err) return res.status(400);
+        res.json(project)
+    });
+});
+
+//create new projects and new task
+app.post('/api/projects', (req,res)=>{
+    const newProject = new db.Project({
+        name: req.body.name,
+        date: req.body.date
+    });
+db.Task.findOne({name: req.body.task}, (err,task)=>{
+    if (err) return res.json({error: err});
+    if (task === null) {
+        db.Task.create({name: req.body.task}, (err, newTask)=>{
+            if (err) return console.log("error existssss");
+            newProject.task = newTask
+            newProject.save((err, savedProject)=>{
+                if (err) return (err);
+                res.json(savedProject)
+            });
+        })
+    } else {
+        newProject.task = task;
+        newProject.save((err, savedProject)=>{
+            if (err) return (err)
+            res.json(savedProject);
+      });
+    };
+  });
+});
+
+
+
+
+
+
+//update project with populate
+app.put('/api/projects/:id', (req,res)=>{
+    db.Project.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .populate('task')
+    .exec((err, updateProject) =>{
+        if (err) return res.status(400);
+            res.json(updateProject)
+    });
+});
+
+//delete project with populate
+app.delete('/api/projects/:id', (req,res)=>{
+    db.Project.findByIdAndRemove(req.params.id)
+    .populate('task')
+    .exec((err, deletedProject)=>{
+        if(err) return res.status(400);
+        res.json(deletedProject)
+    });
+});
+
 
 
 
