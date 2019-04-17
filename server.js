@@ -30,7 +30,7 @@ app.get('/responsibilities', (req, res) => {
 //Get all Project with Populate
 app.get('/api/projects', (req, res)=>{
     db.Project.find()
-    .populate('task')
+    .populate({path: 'task', populate: {path: 'user'}})
     .populate('user')
     .exec((err, project)=>{
         if (err) return console.log(`error: ${err}`);
@@ -42,12 +42,15 @@ app.get('/api/projects', (req, res)=>{
 //Get one project with Populate
 app.get('/api/projects/:id', (req,res)=>{
     db.Project.findById(req.params.id)
-    .populate('task')
+    // .populate({path: 'task', populate: {path: 'user', model: 'User'}})
+    .populate({path: 'task', populate: {path:'user'}})
     .populate('user')
     .exec((err, project)=>{
         if (err) return res.status(400);
         res.json(project)
     });
+
+    // db.Project.findById(req.params.id)
 });
 
 
@@ -156,8 +159,7 @@ app.post('/api/projects/:project_id/tasks', (req,res)=>{
         description: req.body.description,
         status: req.body.status
     });
-    db.Project.findOne({id: req.params.project_id},(err,project)=>{
-        console.log(project);
+    db.Project.findOne({_id: req.params.project_id},(err,project)=>{
         if (err) return res.json({error: err});   
         newTask.save((err, savedTask)=>{
             if (err) {return (err)};
