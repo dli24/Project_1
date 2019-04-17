@@ -7,7 +7,6 @@ const ProjectSchema = new Schema({
     task: [{
         type: Schema.Types.ObjectId,
         ref: 'Task',
-        default: ()=> {return null;}
     }],
     user: [{
         type: Schema.Types.ObjectId,

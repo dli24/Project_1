@@ -130,7 +130,7 @@ app.delete('/api/projects/:id', (req,res)=>{
 // Get all Task with Populate
 app.get('/api/projects/:project_id/tasks', (req, res)=>{
     db.Task.find()
-    .populate('project')
+    .populate('user')
     .exec((err, task)=>{
         if (err) return console.log(`error: ${err}`);
         res.json(task)
@@ -141,7 +141,7 @@ app.get('/api/projects/:project_id/tasks', (req, res)=>{
 //Get one task with Populate
 app.get('/api/projects/:project_id/tasks/:id', (req,res)=>{
     db.Task.findById(req.params.id)
-    .populate('project')
+    .populate('user')
     .exec((err, task)=>{
         if (err) return res.status(400);
         res.json(task)
@@ -156,7 +156,7 @@ app.post('/api/projects/:project_id/tasks', (req,res)=>{
         description: req.body.description,
         status: req.body.status
     });
-    db.Project.findOne({_id: req.params.project_id},(err,project)=>{
+    db.Project.findOne({id: req.params.project_id},(err,project)=>{
         console.log(project);
         if (err) return res.json({error: err});   
         newTask.save((err, savedTask)=>{
@@ -169,17 +169,35 @@ app.post('/api/projects/:project_id/tasks', (req,res)=>{
         });
     // }
     });
+
+    // db.User.create({name: req.body.user}, (err, newUser)=>{
+    //     if(err) return console.log("there is error here");
+    //     newTask.user = newUser;
+    //     newTask.save((err, savedTask)=>{
+    //         if(err) return (err);
+    //         res.json(savedTask)
+    //     })
+    // });
 });
 
 
 // update task with populate
 app.put('/api/projects/:project_id/tasks/:id', (req,res)=>{
-    db.Task.findByIdAndUpdate(req.params.id, req.body, {new: true})
-    .populate('project')
-    .exec((err, updateTask) =>{
-        if (err) return res.status(400);
-            res.json(updateTask)
-    });
+    if (req.body.user) {
+        db.User.findById(req.body.user, (err, foundUser)=>{
+            if(err) return res.json(err);
+            let updatedTask = req.body;
+            updatedTask.user = foundUser;
+            db.Task.findByIdAndUpdate(req.params.id, updatedTask, {new: true})
+                .populate('user')
+                .exec((err, updatedTask) => {
+                    if (err) return res.json(err);
+                    res.json(updatedTask);
+                })
+        });
+
+    };
+
 });
 
 
@@ -198,7 +216,7 @@ app.delete('/api/projects/:project_id/tasks/:id', (req,res)=>{
 
 
 
-//===================================USER CRUD===========================================
+//===========================USER ROUTE====================================
 //Get all Users
 app.get('/api/projects/:project_id/users', (req, res)=>{
     db.User.find()
@@ -226,8 +244,7 @@ app.get('/api/projects/:project_id/users/:id', (req,res)=>{
 
 app.post('/api/projects/:project_id/users', (req, res)=>{
     const newUser = new db.User({
-        name: req.body.name,
-        color: req.body.color
+        name: req.body.name
     })
     db.Project.findOne({_id: req.params.project_id}, (err, project)=>{
         if (err) return res.json({error: err});
@@ -236,10 +253,12 @@ app.post('/api/projects/:project_id/users', (req, res)=>{
             project.user.push(savedUser);
             project.save((err, savedProject)=>{
                 res.json(savedUser)
-            })
-        })
-    })
-})
+            });
+        });
+    });
+});
+
+
 
 // update user with populate
 app.put('/api/projects/:project_id/users/:id', (req,res)=>{
