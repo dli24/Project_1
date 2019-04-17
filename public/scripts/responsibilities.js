@@ -1,10 +1,15 @@
-let currentUser = { name: 'zack', color: 'red' };
+// let currentUser = { name: 'zack', color: 'red' };
+
+
+const users = [
+    { name: 'zack' },
+    { name: 'david' },
+    { name: 'justin' }
+]
 
 
 
-
-
-const colorWheel = ['red', 'blue', 'yellow', 'green', 'purple', 'orange'];
+const colorWheel = [{ color: 'red', bootstrap: 'danger' }, { color: 'blue', bootstrap: 'primary' }, { color: 'green', bootstrap: 'success' }, { color: 'teal', bootstrap: 'info' }, { color: 'orange', greyed: 'palegoldenrod', text: 'black' }];
 
 
 console.log('sanity check')
@@ -13,14 +18,6 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip()
 })
 
-// $(function () {
-//   $('[data-toggle="popover"]').popover()
-// })
-
-
-// $('.popper').popover({
-//     html: true,
-// });
 
 $('ul').on('click', '.popper', e => $(e.target).popover({ html: true }))
 
@@ -47,7 +44,25 @@ $('body').on('click', '.acceptTaskButton', e => {
 })
 
 
-const tasks = [{ title: "get drunk", description: "this is mainly a drinking activity but people also sometimes use other methods for getting alcohol into their bodies", task_id: 9990999 }, { title: "do work", description: "just another description for another activity", task_id: 3344334 }];
+const tasks = [{ title: "get drunk", description: "this is mainly a drinking activity but people also sometimes use other methods for getting alcohol into their bodies", task_id: 9990999, user: '' },
+    { title: "do work", description: "just another description for another activity", task_id: 3344334, user: '' },
+    { title: "go Global", description: "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.", task_id: 1234567, user: '' },
+    { title: "Allons-y", description: "There's something that doesn't make sense. Let's go and poke it with a stick. Brave heart, Clara. I once spent a hell of a long time trying to get a gobby Australian to Heathrow airport. Oh, I always rip out the last page of a book.", task_id: 932345, user: '' },
+];
+
+function layUsers(userArray) {
+    userArray.forEach((user, index) => {
+        // let $circle = $(`<div class="userCircle"></div>`).css('background-color', colorWheel[index].color)
+        // console.log($circle)
+        // let $button = $(`<button type="button" class="btn btn-secondary btn-sm nametag"><p>${user.name}</p><div class="userCircle"></div></button>`);
+        // $button.css(`background-color`, `${colorWheel[index].greyed}`);
+        // console.log($button)
+
+        let $button = $(`<input type="checkbox" checked data-toggle="toggle" data-onstyle="secondary" data-offstyle="${colorWheel[index].bootstrap}">`);
+
+        $('#userPills').append($button);
+    });
+}
 
 
 function layTasks(taskArray) {
@@ -62,8 +77,12 @@ function layTasks(taskArray) {
         // let $accept = $(`<a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a></button>`);
         // $accept.data('task_id', task.task_id);
         // $dataContent.append($accept);
-        $button.css(`background-color`, `${currentUser.color}`)
-        $button.data({ toggle: 'popover', title: `<h5>${task.title}</h5><a class='btn popclose'>X</a>`, content: `<p>${task.description}</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>`, task_id: task.task_id });
+
+
+
+        // $button.css(`border`, `2px solid ${currentUser.color}`)
+        // $button.css(`background-color`, `${currentUser.color}`)
+        $button.data({ toggle: 'popover', title: `<h5>${task.title}</h5><a class='btn popclose'>X</a>`, content: `<p>${task.description}</p> <a class='btn btn-primary btn-lg editTaskButton'>Edit Task</a> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>`, task_id: task.task_id });
         $li.append($button);
         // console.log($button);
         $li.append(`<h5>${task.title}</h5>`)
@@ -109,3 +128,7 @@ function layTasks(taskArray) {
 //<button class="popcloser" onclick="[data-dismiss='popover']"`
 
 //class="popcloser" onclick="[data-dismiss='popover']"
+
+
+layTasks(tasks);
+layUsers(users);

@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles/responsibilities.css">
+    <script defer src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.4.0/js/bootstrap4-toggle.min.js"></script>
     <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -19,10 +21,11 @@
     <ul class="nav nav-pills">
         <button type="button" id="newTask" class="btn btn-secondary btn-lg">create new task</button>
         <button type="button" id="hideNonAssigned" class="btn btn-secondary btn-lg">your tasks only</button>
-        <button type="button" class="btn btn-secondary btn-sm nametag">user_1</button>
+        <div class="user-pills" id="userPills"></div>
+        <!-- <button type="button" class="btn btn-secondary btn-sm nametag">user_1</button>
         <button type="button" class="btn btn-secondary btn-sm nametag">user_2</button>
         <button type="button" class="btn btn-secondary btn-sm nametag">user_3</button>
-        <button type="button" class="btn btn-secondary btn-sm nametag">user_4</button>
+        <button type="button" class="btn btn-secondary btn-sm nametag">user_4</button> -->
     </ul>
     <div class="button-control">
         <button class="btn btn-default btn-circle btn-xl" data-toggle="tooltip" data-placement="right" title="Connects to the outline"><i class="fa fa-list"></i></button>
@@ -165,6 +168,7 @@
                         <button class="btn btn-primary popper" data-toggle="popover" html="true" data-title="hard coded" data-content="<p>just hard coding the task</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
                         <h5 class="task-name" id="task80">hard-coded task</h5>
                     </li>
+
 
 
 

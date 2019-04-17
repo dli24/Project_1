@@ -44,6 +44,21 @@ header {
     /* align-content: center; */
 }
 
+
+/* .nav>* {
+    flex: 1;
+}
+
+.user-pills {
+    flex: 2;
+} */
+
+.user-pills {
+    width: 40vw;
+    display: flex;
+    justify-content: space-evenly;
+}
+
 main {
     display: flex;
     justify-content: space-between;
@@ -51,6 +66,12 @@ main {
 
 .side {
     width: 100px;
+}
+
+.userColor {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
 }
 
 .left-side {
@@ -105,6 +126,7 @@ a {
     height: 70%;
     padding-right: 30px;
     margin-bottom: 0;
+    display: flex;
 }
 
 .new-task {
@@ -153,6 +175,7 @@ a {
 
 .popper {
     margin: 0 5px;
+    border-radius: 50%;
 }
 
 .mode {
@@ -196,7 +219,7 @@ ul {
     /* flex-flow: column wrap; */
     height: 500px;
     width: 100%;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     column-width: 22vw;
 }
 
