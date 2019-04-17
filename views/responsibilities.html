@@ -185,23 +185,46 @@
         <div class="copyw">@ 2019 david justin zack</div>
     </footer>
 
-    <div class="modal fade" id="theModal" tabindex="-1" role="dialog" aria-labelledby="notSURE BBUT DO IT " aria-hidden="true">
+    <!-- TASK EDIT MODAL -->
+
+    <div class="modal fade" id="newTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">${this will be dynamic</h5>
+                    <h5 class="modal-title" id="newTaskModalLabel">New Task</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
                 </div>
                 <div class="modal-body">
-                    ${this will also be dynamic}
+                    <form class="task-edit">
+                        <div class="form-group">
+                            <label for="new-task-name" class="col-form-label">Task Name:</label>
+                            <input type="text" class="form-control" id="newTaskName">
+                        </div>
+                        <div class="form-group">
+                            <label for="description-text" class="col-form-label">Description:</label>
+                            <textarea class="form-control" id="newTaskDescription"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-task-status">Task Status:</label>
+                            <select class="form-control" id="newTaskStatus">
+                              <option>Pending</option>
+                              <option>Unassigned</option>
+                              <option>Assigned</option>
+                              <option>Stretch</option>
+                              <option>Complete</option>
+                            </select>
+                        </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Accept Task</button>
-
+                    <button type="button" class="btn btn-dark delete-task" id="deleteTask" data-dismiss="modal">Delete Task</button>
+                    <div class="right-buttons">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">nevermind</button>
+                        <button type="submit" class="btn btn-success">Create !</button>
+                    </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>

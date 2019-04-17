@@ -256,3 +256,11 @@ footer {
     align-content: center;
     text-align: center;
 }
+
+.modal-footer {
+    justify-content: space-between;
+}
+
+.right-buttons {
+    justify-content: space-around;
+}

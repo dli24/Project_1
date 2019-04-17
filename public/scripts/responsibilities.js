@@ -172,5 +172,27 @@ function createTask(title, description, status) {
 
     console.log(newTask)
     tasks.push(newTask)
+    layTasks(tasks)
     groupId++
 }
+
+
+$('#newTask').on('click', () => {
+    $('#newTaskModal').modal('toggle')
+})
+
+
+$('.task-edit').submit(function(event) {
+    event.preventDefault();
+    const taskName = $('#newTaskName').val();
+    const taskDesc = $('#newTaskDescription').val();
+    const taskStat = $('#newTaskStatus').val();
+    createTask(taskName, taskDesc, taskStat);
+    $('#newTaskModal').modal('hide');
+});
+
+
+
+$('#deleteTask').click(function(event) {
+
+})
