@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
     <script defer src="/scripts/responsibilities.js"></script>
     <title>Respawn</title>
 </head>
+
 <body>
     <ul class="nav nav-pills">
         <button type="button" id="newTask" class="btn btn-secondary btn-lg">create new task</button>
@@ -29,70 +31,143 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-4">
+            <div class="dumb">
                 <ul class="task-list" id="taskList">
-                  <li class="list-item list-item-4" id="listItem4">
-                      <div class="flex-control"></div>
-                      <h5 class="task-name" id="taskName">wow cools man</h5>
-                      <button type="button" class="btn btn-warning" >accept task</button>
 
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#theModal">more info</button>
+
+                    <!-- <li class="list-item" id="listItem1">
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-title="this title" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
+                        <h5 class="task-name" id="task1">task number 1</h5>
                     </li>
-                    <li class="list-item list-item-1" id="listItem1">
-                      <div class="flex-control"></div>
-                      <h5 class="task-name" id="taskName">jsut a div</h5>
-                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    <li class="list-item" id="listItem2">
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
+                        <h5 class="task-name" id="task2">task number 2</h5>
                     </li>
-                    <li class="list-item list-item-2" id="listItem2">
-                      <div class="flex-control"></div>
+                    <li class="list-item" id="listItem3">
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
+                        <h5 class="task-name" id="task3">task number 3</h5>
+                    </li>
+                    <li class="list-item" id="listItem4">
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
+                        <h5 class="task-name" id="task4">task number 4</h5>
+                    </li>
+                    <li class="list-item" id="listItem5">
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
+                        <h5 class="task-name" id="task5">task number 5</h5>
+                    </li>
+                    <li class="list-item" id="listItem6">
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
+                        <h5 class="task-name" id="task6">task number 6</h5>
+                    </li>
+                    <li class="list-item" id="listItem7">
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
+                        <h5 class="task-name" id="task7">task number 7</h5>
+                    </li>
+                    <li class="list-item" id="listItem8">
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
+                        <h5 class="task-name" id="task8">task number 8</h5>
+                    </li>
+                    <li class="list-item" id="listItem9">
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
+                        <h5 class="task-name" id="task9">task number 9</h5>
+                    </li>
+                    <li class="list-item" id="listItem10">
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
+                        <h5 class="task-name" id="task10">task number 10</h5>
+                    </li>
+                    <li class="list-item" id="listItem11">
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
+                        <h5 class="task-name" id="task11">task number 11</h5>
+                    </li> -->
+
+
+
+
+                    <!-- <li class="list-item list-item-4 mode" id="listItem4">
+                      <h5 class="task-name" id="taskName">wow cools man</h5>
+                      <div class="bottom-buttons">
+                        <button type="button" class="btn btn-warning" >accept task</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#theModal">more info</button>
+                      </div>
+                    </li>
+                    <li class="list-item list-item-1 collap" id="listItem1">
+                      <div class="top-line">
+                        <h5 class="task-name" id="taskName">jsut a div</h5>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">YOW</button>
+                        <div class="flex-margin"></div>
+                      </div>
+                      <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                          <button type="button" class="btn btn-warning" >accept task</button>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="list-item list-item-1 collap" id="listItem144">
+                      <div class="top-line">
+                        <h5 class="task-name" id="taskName">thhoos a div</h5>
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>                        <div class="flex-margin"></div>
+                      </div>
+                    </li>
+                    <li class="list-item list-item-1  collap popop" id="listItem29">
+                      <div class="top-line">
+                        <button class="btn popper" data-toggle="popover" title="${dynamically populated}" data-desc="dynamic !!"><h5 class="task-name" id="taskName">jsut a div</h5>                        </button>
+                        <div class="flex-margin"></div>
+                      </div>
+                      <div class="collapse" id="collapseExample2">
+                        <div class="card card-body">
+                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                          <button type="button" class="btn btn-warning" >accept task</button>
+                        </div>
+                      </div>
+                    </li>
                       <h5 class="task-name" id="taskName">another task</h5>
-                      <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                      <button class="btn popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
                     </li>
                     <li class="list-item list-item-3" id="listItem3">
-                      <div class="flex-control"></div>
                       <h5 class="task-name" id="taskName">doing it </h5>
                       <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
                     </li>
                     <li class="list-item list-item-5" id="listItem5">
-                      <div class="flex-control"></div>
                       <h5 class="task-name" id="taskName">ikea monopoly</h5>
                       <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
                     </li>
                     <li class="list-item list-item-6" id="listItem6">
-                      <div class="flex-control"></div>
                       <h5 class="task-name" id="taskName">jurisprudence</h5>
                       <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
                     </li>
                     <li class="list-item list-item-7" id="listItem7">
-                      <div class="flex-control"></div>
                       <h5 class="task-name" id="taskName">judas priestess</h5>
                       <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
                     </li>
                     <li class="list-item list-item-8" id="listItem8">
-                      <div class="flex-control"></div>
                       <h5 class="task-name" id="taskName">manapaly money</h5>
                       <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
                     </li>
                     <li class="list-item list-item-9" id="listItem9">
-                      <div class="flex-control"></div>
                       <h5 class="task-name" id="taskName">orgot thatchner</h5>
                       <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
                     </li>
                     <li class="list-item list-item-10" id="listItem10">
-                      <div class="flex-control"></div>
                       <h5 class="task-name" id="taskName">toodaloo lulu</h5>
                       <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
                     </li>
                     <li class="list-item list-item-11" id="listItem11">
-                      <div class="flex-control"></div>
                       <h5 class="task-name" id="taskName">yam tam pam shazam</h5>
                       <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
                     </li>
                     <li class="list-item list-item-12" id="listItem12">
-                      <div class="flex-control"></div>
                       <h5 class="task-name" id="taskName">get busy tasking</h5>
                       <button class="little-button popper" data-toggle="popover" title="${dynamically populated}"></button>
+                    </li> -->
+
+                    <li class="list-item" id="listItem80">
+                        <button class="btn btn-primary popper" data-toggle="popover" html="true" data-title="hard coded" data-content="<p>just hard coding the task</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
+                        <h5 class="task-name" id="task80">hard-coded task</h5>
                     </li>
+
+
+
                 </ul>
             </div>
         </div>
@@ -106,23 +181,24 @@
 
     <div class="modal fade" id="theModal" tabindex="-1" role="dialog" aria-labelledby="notSURE BBUT DO IT " aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalTitle">${this will be dynamic</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">${this will be dynamic</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
+                </div>
+                <div class="modal-body">
+                    ${this will also be dynamic}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Accept Task</button>
+                </div>
             </div>
-            <div class="modal-body">
-              ${this will also be dynamic}
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal">Accept Task</button>
-            </div>
-          </div>
         </div>
     </div>
 
 </body>
+
 </html>
