@@ -22,17 +22,17 @@ const task_list = [
     {
         name: "task list Testing 1",
         description: "description testing 1",
-        status: false
+        status: "Good Status"
     },
     {
         name: "task list Testing 2",
         description: "description testing 2",
-        status: true
+        status: "Bad"
     },
     {
         name: "task list Testing 3",
         description: "description testing 3",
-        status: false
+        status: "decent status"
     }
 ]
 
