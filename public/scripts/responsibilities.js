@@ -1,15 +1,18 @@
 // let currentUser = { name: 'zack', color: 'red' };
 
+let currentUser = 0;
 
-const users = [
-    { name: 'zack' },
-    { name: 'david' },
-    { name: 'justin' }
+
+
+const users = [{},
+    { name: 'zack', id: 1234 },
+    { name: 'david', id: 2345 },
+    { name: 'justin', id: 3456 }
 ]
 
 
 
-const colorWheel = [{ color: 'red', bootstrap: 'danger' }, { color: 'blue', bootstrap: 'primary' }, { color: 'green', bootstrap: 'success' }, { color: 'teal', bootstrap: 'info' }, { color: 'orange', greyed: 'palegoldenrod', text: 'black' }];
+const colorWheel = [{ color: 'grey', bootstrap: 'secondary' }, { color: 'red', bootstrap: 'danger' }, { color: 'blue', bootstrap: 'primary' }, { color: 'green', bootstrap: 'success' }, { color: 'teal', bootstrap: 'info' }, { color: 'orange', greyed: 'palegoldenrod', text: 'black' }];
 
 
 console.log('sanity check')
@@ -40,7 +43,8 @@ $(function() {
 
 $('body').on('click', '.acceptTaskButton', e => {
     event.preventDefault();
-    console.log(event.target.parentNode.parentNode);
+    console.log(event.target);
+    console.log($(event.target).attr('id'))
 })
 
 
@@ -51,25 +55,28 @@ const tasks = [{ title: "get drunk", description: "this is mainly a drinking act
 ];
 
 function layUsers(userArray) {
+    console.log(userArray)
     userArray.forEach((user, index) => {
-        // let $circle = $(`<div class="userCircle"></div>`).css('background-color', colorWheel[index].color)
-        // console.log($circle)
-        // let $button = $(`<button type="button" class="btn btn-secondary btn-sm nametag"><p>${user.name}</p><div class="userCircle"></div></button>`);
-        // $button.css(`background-color`, `${colorWheel[index].greyed}`);
-        // console.log($button)
+        if (user.name) {
+            console.log(user)
+            let $button = $(`<div class="toggle-back" style="background: white"><input class="toggler" id="toggle${index}" type="checkbox" checked data-toggle="toggle" data-index=${index} data-on="${user.name}" data-off="${user.name}" data-onstyle="outline-${colorWheel[index].bootstrap}" data-offstyle="${colorWheel[index].bootstrap}"></div>`);
 
-        let $button = $(`<input type="checkbox" checked data-toggle="toggle" data-onstyle="secondary" data-offstyle="${colorWheel[index].bootstrap}">`);
-
-        $('#userPills').append($button);
+            $('#userPills').append($button);
+        }
     });
 }
 
 
 function layTasks(taskArray) {
+    $('.task-list').empty();
+    // const userColor = currentUser ? colorWheel[currentUser].bootstrap : 'secondary';
+    // console.log(currentUser + '  yeah  ' + userColor)
     taskArray.forEach((task, index) => {
         console.log(task);
         let $li = $(`<li class="list-item" id="listItem${index}">`);
-        let $button = $(`<button class="btn btn-secondary popper" </button>`);
+        // let $button = $(`<button class="btn btn-${ currentUser ? colorWheel[currentUser].bootstrap : 'secondary'} popper" </button>`);
+        let $button = $(`<button class="btn btn-${colorWheel[currentUser].bootstrap} popper" </button>`);
+        // let $button = $(`<button class="btn btn-${userColor} popper" </button>`);
         // let $dataContent = ('<div class="data-content"></div>');
         // console.log($dataContent)
         // let $other = $(`<p>${task.description}</p>`);
@@ -82,7 +89,8 @@ function layTasks(taskArray) {
 
         // $button.css(`border`, `2px solid ${currentUser.color}`)
         // $button.css(`background-color`, `${currentUser.color}`)
-        $button.data({ toggle: 'popover', title: `<h5>${task.title}</h5><a class='btn popclose'>X</a>`, content: `<p>${task.description}</p> <a class='btn btn-primary btn-lg editTaskButton'>Edit Task</a> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>`, task_id: task.task_id });
+        console.log(task.task_id);
+        $button.data({ toggle: 'popover', title: `<h5>${task.title}</h5><a class='btn popclose'>X</a>`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton' id="${task.task_id}">Accept</a>`, task_id: task.task_id });
         $li.append($button);
         // console.log($button);
         $li.append(`<h5>${task.title}</h5>`)
@@ -97,6 +105,7 @@ function layTasks(taskArray) {
         // </li>`)
 
         $('.task-list').append($li);
+
     });
 }
 // function layTasks(taskArray) {
@@ -109,26 +118,49 @@ function layTasks(taskArray) {
 //     });
 // }
 
+// $('.toggler').change(function() {
+//     $('#console-event').html('Toggle: ' + $(this).prop('checked'))
+// })
 
 
 
-
-
-
-
-// <li class="list-item" id="listItem8">
-// <button class="btn btn-primary popper" data-toggle="popover" html="true" data-content="<p>whatever</p> <a class='btn btn-primary btn-lg acceptTaskButton'>Accept</a>"></button>
-// <h5 class="task-name" id="task8">task number 8</h5>
-// </li>
-
-
-
-
-
-//<button class="popcloser" onclick="[data-dismiss='popover']"`
-
-//class="popcloser" onclick="[data-dismiss='popover']"
 
 
 layTasks(tasks);
 layUsers(users);
+
+
+$('.toggler').change(function() {
+    console.log('Toggle: ' + $(this).prop('checked'))
+    console.log($(this).data('index'))
+    if (!$(this).prop('checked')) {
+        $('.toggler').not($(this)).bootstrapToggle('on');
+        currentUser = $(this).data('index');
+    } else {
+        let status = true;
+        $('.toggler').each(function(toggler) {
+            console.log(`Toggle${$(this).data('index')}` + $(this).prop('checked'))
+            status = (status && $(this).prop('checked'));
+            console.log($(this).data('index') + " :  " + status)
+        })
+        if (status) { currentUser = undefined }
+    }
+    layTasks(tasks)
+})
+
+// $('.toggler').on('mousedown', function() {
+//     console.log('Toggle: ' + $(this).prop('checked'))
+//     console.log($(this).data('index'))
+//     $('.toggler').not($(this)).bootstrapToggle('on')
+// })
+
+
+function acceptTask(task_id) {
+
+}
+
+
+
+function getColor(userId) {
+    return colorWheel[users.findIndex(user => user.id == userId)]
+}
