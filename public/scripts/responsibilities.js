@@ -1,21 +1,26 @@
-// let currentUser = { name: 'zack', color: 'red' };
-
+console.log('sanity check')
 let currentUser = 0;
 
+//hard-coded arrays:
+const colorWheel = [{ color: '#6c757d', bootstrap: 'secondary' }, { color: '#dc3545', bootstrap: 'danger' }, { color: '#007bff', bootstrap: 'primary' }, { color: '#28a745', bootstrap: 'success' }, { color: '#17a2b8', bootstrap: 'info' }, { color: '#fd7e14', bootstrap: 'orange' }];
 
 
-const users = [{},
-    { name: 'zack', id: 1234 },
-    { name: 'david', id: 2345 },
-    { name: 'justin', id: 3456 }
+//soon-to-be dynamic arrays:
+const users = [{ user_id: 0 },
+    { name: 'zack', user_id: 1234 },
+    { name: 'david', user_id: 2345 },
+    { name: 'justin', user_id: 3456 }
 ]
 
+const tasks = [{ title: "get drunk", description: "this is mainly a drinking activity but people also sometimes use other methods for getting alcohol into their bodies", task_id: 9990999, user: { name: 'david', user_id: 2345 } },
+    { title: "do work", description: "just another description for another activity", task_id: 3344334, user: {} },
+    { title: "go Global", description: "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.", task_id: 1234567, user: {} },
+    { title: "Allons-y", description: "There's something that doesn't make sense. Let's go and poke it with a stick. Brave heart, Clara. I once spent a hell of a long time trying to get a gobby Australian to Heathrow airport. Oh, I always rip out the last page of a book.", task_id: 932345, user: {} },
+];
 
 
-const colorWheel = [{ color: 'grey', bootstrap: 'secondary' }, { color: 'red', bootstrap: 'danger' }, { color: 'blue', bootstrap: 'primary' }, { color: 'green', bootstrap: 'success' }, { color: 'teal', bootstrap: 'info' }, { color: 'orange', greyed: 'palegoldenrod', text: 'black' }];
 
 
-console.log('sanity check')
 
 $(function() {
     $('[data-toggle="tooltip"]').tooltip()
@@ -48,11 +53,7 @@ $('body').on('click', '.acceptTaskButton', e => {
 })
 
 
-const tasks = [{ title: "get drunk", description: "this is mainly a drinking activity but people also sometimes use other methods for getting alcohol into their bodies", task_id: 9990999, user: '' },
-    { title: "do work", description: "just another description for another activity", task_id: 3344334, user: '' },
-    { title: "go Global", description: "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.", task_id: 1234567, user: '' },
-    { title: "Allons-y", description: "There's something that doesn't make sense. Let's go and poke it with a stick. Brave heart, Clara. I once spent a hell of a long time trying to get a gobby Australian to Heathrow airport. Oh, I always rip out the last page of a book.", task_id: 932345, user: '' },
-];
+
 
 function layUsers(userArray) {
     console.log(userArray)
@@ -69,11 +70,19 @@ function layUsers(userArray) {
 
 function layTasks(taskArray) {
     $('.task-list').empty();
+
+
     // const userColor = currentUser ? colorWheel[currentUser].bootstrap : 'secondary';
     // console.log(currentUser + '  yeah  ' + userColor)
     taskArray.forEach((task, index) => {
         console.log(task);
-        let $li = $(`<li class="list-item" id="listItem${index}">`);
+        console.log(task.user);
+        if (task.user.user_id) { console.log('user! ' + task.user.user_id) } else { console.log('no user!') }
+        const taskUser = task.user.user_id || 000;
+        // const taskUser = task.user.user_id ? task.user.user_id : 000;
+
+        console.log(taskUser)
+        let $li = $(`<li class="list-item" id="listItem${index}" style="background-color: ${getColor(taskUser)}">`);
         // let $button = $(`<button class="btn btn-${ currentUser ? colorWheel[currentUser].bootstrap : 'secondary'} popper" </button>`);
         let $button = $(`<button class="btn btn-${colorWheel[currentUser].bootstrap} popper" </button>`);
         // let $button = $(`<button class="btn btn-${userColor} popper" </button>`);
@@ -143,7 +152,7 @@ $('.toggler').change(function() {
             status = (status && $(this).prop('checked'));
             console.log($(this).data('index') + " :  " + status)
         })
-        if (status) { currentUser = undefined }
+        if (status) { currentUser = 0 }
     }
     layTasks(tasks)
 })
@@ -156,11 +165,15 @@ $('.toggler').change(function() {
 
 
 function acceptTask(task_id) {
+    const taskAss = tasks.find(task => task.task_id === task_id);
+    taskAss.user = users[currentUser];
+    console.log(taskAss)
+    layTasks(tasks);
 
 }
 
 
 
 function getColor(userId) {
-    return colorWheel[users.findIndex(user => user.id == userId)]
+    return colorWheel[users.findIndex(user => user.user_id == userId)].color
 }

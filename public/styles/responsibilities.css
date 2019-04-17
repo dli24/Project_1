@@ -176,6 +176,7 @@ a {
 .popper {
     margin: 0 5px;
     border-radius: 50%;
+    border: 2px solid white;
 }
 
 .mode {
