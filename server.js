@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 const db = require('./models');
 
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -13,7 +14,6 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
-
 
 app.use(express.static(__dirname + '/public'));
 
@@ -25,57 +25,89 @@ app.get('/responsibilities', (req, res) => {
 	res.sendFile('views/responsibilities.html', { root: __dirname });
 });
 
+// =============================Project Route================================
 
 //Get all Project with Populate
 app.get('/api/projects', (req, res)=>{
     db.Project.find()
-    .populate('task')
+    .populate({path: 'task', populate: {path: 'user'}})
+    .populate('user')
     .exec((err, project)=>{
         if (err) return console.log(`error: ${err}`);
         res.json(project)
     });
 });
 
+
 //Get one project with Populate
 app.get('/api/projects/:id', (req,res)=>{
     db.Project.findById(req.params.id)
-    .populate('task')
+    // .populate({path: 'task', populate: {path: 'user', model: 'User'}})
+    .populate({path: 'task', populate: {path:'user'}})
+    .populate('user')
     .exec((err, project)=>{
         if (err) return res.status(400);
         res.json(project)
     });
+
+    // db.Project.findById(req.params.id)
 });
 
+
 //create new projects and new task
+// app.post('/api/projects', (req,res)=>{  
+//     const newProject = new db.Project({
+//         name: req.body.name,
+//         date: req.body.date,
+//     });
+
+
+// db.Task.findOne({name: req.body.task}, (err,task)=>{
+//     if (err) return res.json({error: err});
+//     if (task === null) {
+//         db.Task.create({name: req.body.task}, (err, newTask)=>{
+//             if (err) return console.log("error existssss");
+//             newProject.task = newTask
+//             newProject.save((err, savedProject)=>{
+//                 if (err) return (err);
+//                 res.json(savedProject)
+//             });
+//         })
+//     } else {
+//         newProject.task = task;
+//         newProject.save((err, savedProject)=>{
+//             if (err) return (err)
+//             res.json(savedProject);
+//       });
+//     };
+//   });
+// });
 app.post('/api/projects', (req,res)=>{
     const newProject = new db.Project({
         name: req.body.name,
         date: req.body.date
     });
-db.Task.findOne({name: req.body.task}, (err,task)=>{
-    if (err) return res.json({error: err});
-    if (task === null) {
-        db.Task.create({name: req.body.task}, (err, newTask)=>{
-            if (err) return console.log("error existssss");
-            newProject.task = newTask
-            newProject.save((err, savedProject)=>{
-                if (err) return (err);
-                res.json(savedProject)
+
+    // db.User.findOne({name: req.body.user}, (err, user)=>{
+        // if (err) return res.json({error: err});
+        // if(user === null){
+            db.User.create({name: req.body.user}, (err, newUser)=>{
+                if (err) return console.log("error exist here");
+                newProject.user = newUser;
+                newProject.save((err, savedProject)=>{
+                    if(err) return (err);
+                    res.json(savedProject)
+                });
             });
-        })
-    } else {
-        newProject.task = task;
-        newProject.save((err, savedProject)=>{
-            if (err) return (err)
-            res.json(savedProject);
-      });
-    };
-  });
+        // }else{
+        //     newProject.user = user;
+        //     newProject.save((err, savedProject)=>{
+        //         if (err) return (err)
+        //         res.json(savedProject)
+        //     });
+        // };
+    // });
 });
-
-
-
-
 
 
 //update project with populate
@@ -97,6 +129,164 @@ app.delete('/api/projects/:id', (req,res)=>{
         res.json(deletedProject)
     });
 });
+// =========================TASK ROUTE========================================
+// Get all Task with Populate
+app.get('/api/projects/:project_id/tasks', (req, res)=>{
+    db.Task.find()
+    .populate('user')
+    .exec((err, task)=>{
+        if (err) return console.log(`error: ${err}`);
+        res.json(task)
+    });
+});
+
+
+//Get one task with Populate
+app.get('/api/projects/:project_id/tasks/:id', (req,res)=>{
+    db.Task.findById(req.params.id)
+    .populate('user')
+    .exec((err, task)=>{
+        if (err) return res.status(400);
+        res.json(task)
+    });
+});
+
+
+//create multiple task for one project
+app.post('/api/projects/:project_id/tasks', (req,res)=>{
+    const newTask = new db.Task({
+        name: req.body.name,
+        description: req.body.description,
+        status: req.body.status
+    });
+    db.Project.findOne({_id: req.params.project_id},(err,project)=>{
+        if (err) return res.json({error: err});   
+        newTask.save((err, savedTask)=>{
+            if (err) {return (err)};
+            project.task.push(savedTask);
+            project.save((err, savedProject)=>{
+                res.json(savedTask);
+            })
+            
+        });
+    // }
+    });
+
+    // db.User.create({name: req.body.user}, (err, newUser)=>{
+    //     if(err) return console.log("there is error here");
+    //     newTask.user = newUser;
+    //     newTask.save((err, savedTask)=>{
+    //         if(err) return (err);
+    //         res.json(savedTask)
+    //     })
+    // });
+});
+
+
+// update task with populate
+app.put('/api/projects/:project_id/tasks/:id', (req,res)=>{
+    if (req.body.user) {
+        db.User.findById(req.body.user, (err, foundUser)=>{
+            if(err) return res.json(err);
+            let updatedTask = req.body;
+            updatedTask.user = foundUser;
+            db.Task.findByIdAndUpdate(req.params.id, updatedTask, {new: true})
+                .populate('user')
+                .exec((err, updatedTask) => {
+                    if (err) return res.json(err);
+                    res.json(updatedTask);
+                })
+        });
+
+    };
+
+});
+
+
+
+//delete task with populate
+app.delete('/api/projects/:project_id/tasks/:id', (req,res)=>{
+    db.Task.findByIdAndRemove(req.params.id)
+    .populate('project')
+    .exec((err, deletedTask)=>{
+        if(err) return res.status(400);
+        res.json(deletedTask)
+    });
+});
+
+
+
+
+
+//===========================USER ROUTE====================================
+//Get all Users
+app.get('/api/projects/:project_id/users', (req, res)=>{
+    db.User.find()
+    .populate('project')
+    .exec((err, user)=>{
+        if (err) return console.log(`error: ${err}`);
+        res.json(user)
+    });
+});
+
+// Get one User
+app.get('/api/projects/:project_id/users/:id', (req,res)=>{
+    db.User.findById(req.params.id)
+    .populate('project')
+    .exec((err, user) => {
+        if (err) return res.status(400).json({msg: 'User Id does not exist'})
+        res.json(user);
+    })
+
+
+
+})
+
+// create User
+
+app.post('/api/projects/:project_id/users', (req, res)=>{
+    const newUser = new db.User({
+        name: req.body.name
+    })
+    db.Project.findOne({_id: req.params.project_id}, (err, project)=>{
+        if (err) return res.json({error: err});
+        newUser.save((err, savedUser)=>{
+            if(err) {return (err)};
+            project.user.push(savedUser);
+            project.save((err, savedProject)=>{
+                res.json(savedUser)
+            });
+        });
+    });
+});
+
+
+
+// update user with populate
+app.put('/api/projects/:project_id/users/:id', (req,res)=>{
+    db.User.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    .populate('project')
+    .exec((err, updateUser) =>{
+        if (err) return res.status(400);
+            res.json(updateUser)
+    });
+});
+
+
+
+//delete user with populate
+app.delete('/api/projects/:project_id/users/:id', (req,res)=>{
+    db.User.findByIdAndRemove(req.params.id)
+    .populate('project')
+    .exec((err, deletedUser)=>{
+        if(err) return res.status(400);
+        res.json(deletedUser)
+    });
+});
+
+
+
+
 
 
 
