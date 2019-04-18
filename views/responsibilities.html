@@ -19,7 +19,7 @@
 
 <body>
     <ul class="nav nav-pills">
-        <button type="button" id="newTask" class="btn btn-secondary btn-lg">create new task</button>
+        <button type="button" id="newTask" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#newTaskModal" data-ugly="you are too ugly" data-manic="get schwilllied">create new task</button>
         <button type="button" id="hideNonAssigned" class="btn btn-secondary btn-lg">your tasks only</button>
         <div class="user-pills" id="userPills"></div>
         <!-- <button type="button" class="btn btn-secondary btn-sm nametag">user_1</button>
@@ -218,10 +218,10 @@
                         </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark delete-task" id="deleteTask" data-dismiss="modal">Delete Task</button>
+                    <button type="button" class="btn btn-dark delete-task" id="deleteTask">Delete Task</button>
                     <div class="right-buttons">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">nevermind</button>
-                        <button type="submit" class="btn btn-success">Create !</button>
+                        <button type="submit" class="btn btn-success" id="newTaskSubmit">Create !</button>
                     </div>
                 </div>
                 </form>

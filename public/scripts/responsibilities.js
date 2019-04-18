@@ -2,21 +2,23 @@ console.log('sanity check')
 let currentUser = 0;
 let groupId = 100;
 
+
 //hard-coded arrays:
 const colorWheel = [{ color: '#6c757d', bootstrap: 'secondary' }, { color: '#dc3545', bootstrap: 'danger' }, { color: '#007bff', bootstrap: 'primary' }, { color: '#28a745', bootstrap: 'success' }, { color: '#17a2b8', bootstrap: 'info' }, { color: '#fd7e14', bootstrap: 'orange' }];
 
 
 //soon-to-be dynamic arrays:
+const deletedTasks = [];
 const users = [{ user_id: 0 },
     { name: 'zack', user_id: 1234 },
     { name: 'david', user_id: 2345 },
     { name: 'justin', user_id: 3456 }
-]
+];
 
-const tasks = [{ title: "get drunk", description: "this is mainly a drinking activity but people also sometimes use other methods for getting alcohol into their bodies", task_id: 9990999, user: { name: 'david', user_id: 2345 } },
-    { title: "do work", description: "just another description for another activity", task_id: 3344334 },
-    { title: "go Global", description: "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.", task_id: 1234567 },
-    { title: "Allons-y", description: "There's something that doesn't make sense. Let's go and poke it with a stick. Brave heart, Clara. I once spent a hell of a long time trying to get a gobby Australian to Heathrow airport. Oh, I always rip out the last page of a book.", task_id: 932345 },
+const tasks = [{ title: "get drunk", description: "this is mainly a drinking activity but people also sometimes use other methods for getting alcohol into their bodies", task_id: 9990999, user: { name: 'david', user_id: 2345 }, status: 'assigned' },
+    { title: "do work", description: "just another description for another activity", task_id: 3344334, status: 'unassigned'},
+    { title: "go Global", description: "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.", task_id: 1234567, status: 'unassigned' },
+    { title: "Allons-y", description: "There's something that doesn't make sense. Let's go and poke it with a stick. Brave heart, Clara. I once spent a hell of a long time trying to get a gobby Australian to Heathrow airport. Oh, I always rip out the last page of a book.", task_id: 932345, status: 'flex' },
 ];
 
 
@@ -32,13 +34,14 @@ $('ul').on('shown.bs.popover', '.popper', e => {
     $('.popclose').on('click', () => {
         console.log($(e.target).popover('hide'))
     })
-    $('.acceptTaskButton').on('click', event => {
-        // e.preventDefault();
+    $('.pop-help').on('click', event => {
         $(e.target).popover('hide')
-        taskId = $(event.target).attr('id');
-        acceptTask(taskId)
-
+        console.log(event.target)
+        const taskId = $(event.target).attr('id');
+        console.log('task id is  ' + taskId)
+        $(event.target).hasClass('accept') ? acceptTask(taskId) : editTaskModal(taskId);
     })
+
 })
 
 
@@ -77,7 +80,7 @@ function layTasks(taskArray) {
         let $button = $(`<button class="btn btn-${colorWheel[currentUser].bootstrap} popper" </button>`);
 
         console.log(task.task_id);
-        $button.data({ toggle: 'popover', title: `<h5>${task.title}</h5><a class='btn popclose'>X</a>`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton' id="${task.task_id}">Accept</a>`, task_id: task.task_id });
+        $button.data({ toggle: 'popover', title: `<h5>${task.title}</h5><a class='btn popclose'>X</a>`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton pop-help' id='${task.task_id}'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton pop-help accept' id="${task.task_id}">Accept</a>`, task_id: task.task_id });
         $li.append($button);
         // console.log($button);
         $li.append(`<h5>${task.title}</h5>`)
@@ -160,6 +163,22 @@ function toggleUser(user) {
 }
 
 
+function editTaskModal(taskId) {
+    const taskEdit = tasks.find(task => task.task_id === Number(taskId));
+    console.log(taskEdit.task_id);
+    $('#newTaskModalLabel').text('Edit Task');
+    $('#newTaskSubmit').text('Do the Edit!');
+    $('#newTaskName').val(taskEdit.title);
+    $('#newTaskDescription').val(taskEdit.description);
+    $('#newTaskStatus').val(taskEdit.status)
+    $('.task-edit').data('task', taskId);
+    // $('#newTaskSubmit').data('task', taskId);
+    $('#newTaskModal').modal('toggle');
+}
+
+
+
+
 
 
 function createTask(title, description, status) {
@@ -184,15 +203,62 @@ $('#newTask').on('click', () => {
 
 $('.task-edit').submit(function(event) {
     event.preventDefault();
+    const button = $(event.target);
+    console.log(button);
     const taskName = $('#newTaskName').val();
     const taskDesc = $('#newTaskDescription').val();
     const taskStat = $('#newTaskStatus').val();
-    createTask(taskName, taskDesc, taskStat);
+
+    if($('.task-edit').data('task')){
+      // console.log($('.task-edit').data('task'))
+      editTask(taskName, taskDesc, taskStat, $('.task-edit').data('task'));
+    }else{
+      createTask(taskName, taskDesc, taskStat);
+    }
+
+
+    // createTask(taskName, taskDesc, taskStat);
     $('#newTaskModal').modal('hide');
 });
 
 
 
 $('#deleteTask').click(function(event) {
-
+    const task = $(event.target);
+    if (task.data('task')) {
+        console.log(task.data('task'))
+    }
+    $('#newTaskModal').modal('hide');
 })
+
+
+
+$('#newTaskModal').on('hide.bs.modal', resetModal)
+
+
+
+function resetModal(){
+  console.log('resetting')
+  $('#newTaskModalLabel').text('New Task');
+  $('#newTaskSubmit').text('Create !');
+  $('#newTaskName').val('');
+  $('#newTaskDescription').val('');
+  $('#newTaskStatus').val('Pending');
+  $('.task-edit').removeData('task');
+  // $('#newTaskSubmit').removeData('task');
+}
+
+function editTask(title, description, status, taskId) {
+  console.log(tasks)
+  const renewedTask = tasks.find(task => task.task_id === Number(taskId));
+  renewedTask.title = title;
+  renewedTask.description = description;
+  renewedTask.status = status;
+  console.log(renewedTask)
+  console.log(tasks)
+  // tasks.push(renewedTask)
+  layTasks(tasks)
+}
+
+
+// $('#editTaskButton').on('click', editTaskModal)
