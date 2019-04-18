@@ -1,5 +1,5 @@
 console.log('sanity check')
-let projectId = 'dude+the+project+id'
+let projectId = 'duuuude+the+PROJECTID'
 const URL = `/api/projects/${projectId}`
 let currentUser = 0;
 let idCounter = 100;
@@ -30,22 +30,31 @@ const tasks = [{ title: "get drunk", description: "this is mainly a drinking act
 
 
 
-function callDavid(type, data, url = ) {
-    $.ajax({
+function callDavid(type, data, url = URL) {
+    console.log('duude')
+    const apiCall = {
         type,
         url,
         data,
         dataType: "dataType",
         success: handleSuccess,
         error: handleError
-    });
+    };
 
     function handleSuccess(data) { console.log(data) }
 
     function handleError(error) { console.log(error) }
+
+    $.ajax(apiCall);
 }
 
 
+const practice = {
+    method: 'GET',
+    url: URL,
+    success: () => console.log('success'),
+    error: () => console.log('error')
+};
 
 
 let cooler = "yeah cool"
