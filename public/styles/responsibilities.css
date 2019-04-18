@@ -3,12 +3,12 @@
 } */
 
 body {
-    /* background: url('../images/abstract-dark-red-watercolor-background-450w-637358260.jpg');
-    height: 100vh; 
-    background-position: center; 
-    background-repeat: no-repeat; 
-    background-size: cover;  */
-    background: rgb(223, 187, 27);
+    background: url('../images/svartvita_berg_display.jpg');
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background: rgb(223, 187, 27); */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,6 +25,14 @@ header {
     justify-content: center;
     align-content: center;
 }
+
+
+/* .fullbody {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(255, 255, 255, .5);
+} */
 
 
 /* .active {
@@ -102,11 +110,12 @@ main {
 .container {
     width: 100vw;
     height: 80vh;
-    background: rgb(149, 210, 250);
+    background: transparent;
+    /* background: rgb(149, 210, 250); */
     margin: 0 auto;
     border-radius: 2vw;
     /* border: 5px solid green; */
-    box-shadow: inset 1px 1px 5px rgb(125, 125, 125), inset -1px -1px 5px rgb(125, 125, 125), inset -1px 1px 5px rgb(125, 125, 125), inset 1px -1px 1px rgb(125, 125, 125);
+    box-shadow: 1px 1px 100px 100px rgba(255, 255, 255, .2), -1px -1px 100px 100px rgba(255, 255, 255, .2), -1px 1px 100px 100px rgba(255, 255, 255, .2), 1px -1px 100px 100px rgba(255, 255, 255, .2), inset 1px 1px 5px rgb(125, 125, 125), inset -1px -1px 5px rgb(125, 125, 125), inset -1px 1px 5px rgb(125, 125, 125), inset 1px -1px 1px rgb(125, 125, 125);
     /* 0 0 50px 22px green; */
     /* box-shadow: 2px  2px 5px 2px rgb(56, 1, 1),
                -2px -2px 5px 2px rgb(56, 1, 1),
@@ -144,12 +153,13 @@ a {
 } */
 
 .list-item {
-    border: 2px solid black;
-    background: grey;
+    /* border: 2px solid black; */
+    /* background: grey; */
     /* text-align: center; */
     padding: 3px 7px;
     border-radius: 5px;
     margin: 5px;
+    /* border: 1px solid black; */
     /* display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -160,6 +170,7 @@ a {
     break-inside: avoid;
     display: flex;
     justify-content: flex-start;
+    box-shadow: 1px 1px 3px #444;
 }
 
 .popover-header {
@@ -169,14 +180,23 @@ a {
 }
 
 .list-item>* {
+    color: black;
     margin-top: 3px;
     margin-bottom: 3px;
+    font-size: 25px;
+    /* text-shadow: 1px 1px 1px rgba(15, 15, 15, .3), -1px 1px 1px rgba(55, 55, 55, .3), -1px -1px 1px rgba(55, 55, 55, .3), 1px 1px 1px rgba(55, 55, 55, .3); */
 }
 
 .popper {
-    margin: 0 5px;
-    border-radius: 50%;
-    border: 2px solid white;
+    margin: 5px 10px;
+    /* border-radius: 50%;
+    border: 2px solid white; */
+    background: transparent;
+    border: none;
+    /* font-size: 25px; */
+    text-shadow: 1px 1px rgba(15, 15, 15, .3), -1px 1px rgba(55, 55, 55, .3), -1px -1px rgba(55, 55, 55, .3), 1px 1px rgba(55, 55, 55, .3);
+    /* text-shadow: 1px 1px 1px rgba(15, 15, 15, .3), -1px 1px 1px rgba(55, 55, 55, .3), -1px -1px 1px rgba(55, 55, 55, .3), 1px 1px 1px rgba(55, 55, 55, .3); */
+    /* text-shadow: 1px 1px 1px rgba(15, 15, 15, .3), -1px 1px 1px rgba(55, 55, 55, .3); */
 }
 
 .mode {
