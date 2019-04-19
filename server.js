@@ -160,16 +160,6 @@ app.put('/api/projects/:project_id/tasks', (req, res) => {
 
 
 //delete task with populate
-<<<<<<< HEAD
-app.delete('/api/projects/:project_id/tasks', (req, res) => {
-    const taskToDelete = req.body;
-    taskToDelete.forEach(task => {
-        db.Task.findByIdAndRemove(task._id, (err, deletedTask) => {
-            if (err) return res.status(400);
-        });
-    });
-    res.json(taskToDelete)
-=======
 app.delete('/api/projects/:project_id/tasks/:id', (req,res)=>{
 //     const taskToDelete = req.body;
 //     taskToDelete.forEach(task=>{
@@ -183,7 +173,6 @@ db.Task.findByIdAndRemove(req.params.id, (err, deletedTask)=>{
     if (err) return res.status(500);
     res.json(deletedTask)
     });
->>>>>>> c5de51728a9c50ff14a81229643b3083732ab5bf
 });
 
 app.listen(PORT, () => console.log("port 3000 have linked!"))
