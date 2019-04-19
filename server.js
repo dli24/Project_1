@@ -125,13 +125,20 @@ app.post('/api/projects/:project_id/tasks', (req,res)=>{
 
 // api/project/:project_id/taskarray
 app.post('/api/projects/:project_id/taskarray' ,(req,res) => {
-    db.Task.create(req.body, (err, newTasks) => {
+    console.log(req.body)
+    db.Task.create(req.body.task, (err, newTasks) => {
       if (err) return res.json(err);
       db.Project.findById(req.params.project_id, (err, foundProject) => {
         if (err) return res.json(err);
+<<<<<<< HEAD
+        newTasks.forEach(task=> {
+          foundProject.task.task.push(task);
+        });
+=======
         for (let i = 0; i < newTasks.length; i++) {
             foundProject.task.push(newTasks[i]);
         }
+>>>>>>> 6ffdc1d65911eb077c1dd6cea34bb48c293e9450
         foundProject.save((err, savedProject) => {
           if (err) return res.json(err);
           res.json(savedProject);
