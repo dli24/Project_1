@@ -103,14 +103,22 @@ $('ul').on('shown.bs.popover', '.popper', e => {
         console.log($(event.target).text())
         const taskId = $(event.target).attr('id');
         console.log('task id is  ' + taskId)
-        $(event.target).hasClass('accept') ? acceptTask(taskId) : editTaskModal(taskId);
+        // $(event.target).hasClass('accept') ? acceptTask(taskId) : editTaskModal(taskId);
+        if($(event.target).text() === 'Accept'){
+            acceptTask(taskId)
+        }else if($(event.target).text() === 'Complete!'){
+            completeTask(taskId)
+        }else{
+            editTaskModal(taskId)
+        }
+
     })
 
 })
 
-function completeTask(taskId){
+// function completeTask(taskId){
 
-}
+// }
 
 
 $('.idiotCheck').on('hover', () => console.log('you are dumb'));
@@ -232,27 +240,29 @@ function acceptTask(taskId) {
     layTasks(tasks);
 
 }
-// function completeTask(taskId) {
-//     console.log(taskId)
-//     console.log('trying to accept ' + taskId)
-//     const taskAss = tasks.find(task => task._id === taskId);
-//     tasks.forEach(task => {
-//         console.log(`does ${task._id} even equal ${taskId} ??`)
-//         console.log(task._id === taskId ? "yes" : "no")
-//         console.log('task.task_id :  ' + typeof(task._id))
-//         console.log('taskId :  ' + typeof(taskId))
+function completeTask(taskId) {
+    console.log(taskId)
+    console.log('trying to complete ' + taskId)
+    // const taskAss = tasks.find(task => task._id === taskId);
+    const toComplete = tasks.splice(tasks.findIndex(task => task._id === taskId), 1)[0];
 
-//     });
-//     console.log(taskAss);
-//     console.log(taskAss.user)
-//     taskAss.user = currentUser;
-//     taskAss.status = 'Assigned';
-//     taskAssigments.push(taskAss);
-//     console.log(taskAss)
-//     saveOrder();
-//     layTasks(tasks);
+    // tasks.forEach(task => {
+    //     console.log(`does ${task._id} even equal ${taskId} ??`)
+    //     console.log(task._id === taskId ? "yes" : "no")
+    //     console.log('task.task_id :  ' + typeof(task._id))
+    //     console.log('taskId :  ' + typeof(taskId))
 
-// }
+    // });
+    console.log(toComplete);
+    console.log(toComplete.user)
+    // taskAss.user = currentUser;
+    toComplete.status = 'Complete';
+    completeTasks.push(toComplete);
+    console.log(toComplete)
+    saveOrder();
+    layTasks(tasks);
+
+}
 
 
 
