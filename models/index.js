@@ -6,5 +6,5 @@ mongoose.connect(DB_URL, {useNewUrlParser: true, useFindAndModify: false})
 module.exports = {
     Project: require("./project.js"),
     Task: require("./task"),
-    User: require("./user")
+    // User: require("./user")
 }

@@ -37,11 +37,16 @@ const tasks = [{ name: "get drunk", description: "this is mainly a drinking acti
 
 
 function callDavid(method, data, url = URL) {
+<<<<<<< HEAD
     // console.log('duude')
 
     // let noGood;
     const apiCall = {
         method,
+=======
+    const apiCall = {
+        method: "GET",
+>>>>>>> 8bc0f1b965a9cf5c82a61e84611af6f9f9b5da3a
         url,
         data,
         // dataType: "dataType",
