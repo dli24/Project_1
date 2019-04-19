@@ -38,16 +38,13 @@ const task_list = [
 
 const user_list = [
     {
-        name: "person number one",
-        color: "red"
+        name: "person number one"
     },
     {
-        name: "person number two",
-        color: "green"
+        name: "person number two"
     },
     {
-        name: "person number three",
-        color: "yellow"
+        name: "person number three"
     }
 ]
 

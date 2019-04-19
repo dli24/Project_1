@@ -30,10 +30,9 @@ const tasks = [{ title: "get drunk", description: "this is mainly a drinking act
 
 
 
-function callDavid(type, data, url = URL) {
-    console.log('duude')
+function callDavid(method, data, url = URL) {
     const apiCall = {
-        type,
+        method: "GET",
         url,
         data,
         dataType: "dataType",
