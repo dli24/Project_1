@@ -35,7 +35,7 @@ const users = ['no one']
 //     { name: "Allons-y", description: "There's something that doesn't make sense. Let's go and poke it with a stick. Brave heart, Clara. I once spent a hell of a long time trying to get a gobby Australian to Heathrow airport. Oh, I always rip out the last page of a book.", task_id: '932345', status: 'flex' },
 // ];
 
-let tasks = [];
+const tasks = [];
 
 
 
@@ -119,7 +119,6 @@ $("#taskList").sortable();
 
 function layUsers(userArray) {
     console.log(userArray)
-
     userArray.forEach((user, index) => {
         if (index > 0) {
             console.log(user)
@@ -149,31 +148,28 @@ function layTasks(taskArray) {
 
 
     taskArray.forEach((task, index) => {
-        if (task) {
-            console.log(task);
-            let taskUser = task.status === 'Assigned' ? task.user : 0;
-            let fafa = task.status === 'Assigned' ? '-' : '-circle-';
-            let colores = task.status === 'Assigned' ? 'black' : colorWheel[currentUser].color;
+        console.log(task);
+        const taskUser = task.user ? task.user : 0;
+        const fafa = task.user ? '-' : '-circle-';
+        const colores = task.user ? 'black' : colorWheel[currentUser].color;
+        console.log('task peopl ' + taskUser)
+        let $li = $(`<li class="list-item" id="listItem${index}" style="background-color: ${colorWheel[taskUser].color}">`);
+        let $button = $(`<i class="fas fa-chevron${fafa}right unassigned popper" style="color:${colores}"></i>`);
+        // let $button = $(`<button class="btn btn-${colorWheel[currentUser].bootstrap} popper"></button>`);
 
+        console.log(task._id);
+        $button.data({ toggle: 'popover', title: `<h5>${task.name}</h5><button type="button" class="close btn-warning" data-dismiss="popover" aria-label="Close">`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton pop-help' id='${task._id}'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton pop-help accept' id="${task._id}">Accept</a>`, task_id: task._id });
+        // $button.data({ toggle: 'popover', name: `<h5>${task.name}</h5><a class='btn popclose'>X</a>`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton pop-help' id='${task.task_id}'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton pop-help accept' id="${task.task_id}">Accept</a>`, task_id: task.task_id });
+        $li.append($button);
+        // console.log($button);
+        $li.append(`<h5>${task.name}</h5>`)
 
-            console.log('task peopl ' + taskUser)
-            let $li = $(`<li class="list-item" id="listItem${index}" style="background-color: ${colorWheel[taskUser].color}">`);
-            let $button = $(`<i class="fas fa-chevron${fafa}right unassigned popper" style="color:${colores}"></i>`);
-            // let $button = $(`<button class="btn btn-${colorWheel[currentUser].bootstrap} popper"></button>`);
+        $('.task-list').append($li);
 
-            console.log(task._id);
-            $button.data({ toggle: 'popover', title: `<h5>${task.name}</h5><button type="button" class="close btn-warning" data-dismiss="popover" aria-label="Close">`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton pop-help' id='${task._id}'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton pop-help accept' id="${task._id}">Accept</a>`, task_id: task._id });
-            // $button.data({ toggle: 'popover', name: `<h5>${task.name}</h5><a class='btn popclose'>X</a>`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton pop-help' id='${task.task_id}'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton pop-help accept' id="${task.task_id}">Accept</a>`, task_id: task.task_id });
-            $li.append($button);
-            // console.log($button);
-            $li.append(`<h5>${task.name}</h5>`)
-
-            $('.task-list').append($li);
-        }
     });
 }
 
-// '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+'<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
 
 
 
@@ -200,7 +196,6 @@ $('#userPills').on('change', '.toggler', function() {
     //     })
     //     if (status) { currentUser = 0 }
     // }
-    saveOrder()
     layTasks(tasks)
 })
 
@@ -222,7 +217,6 @@ function acceptTask(taskId) {
     taskAss.status = 'Assigned';
     taskAssigments.push(taskAss);
     console.log(taskAss)
-    saveOrder();
     layTasks(tasks);
 
 }
@@ -247,7 +241,6 @@ function toggleUser(user) {
         })
         if (status) { currentUser = 0 }
     }
-    saveOrder();
     layTasks(tasks)
 }
 
@@ -331,14 +324,13 @@ $('#deleteTask').click(function(event) {
         console.log(toDelete)
 
         $.ajax({
-                method: 'DELETE',
+                method: 'POST',
                 url: URL + '/tasks',
                 data: toDelete,
                 error: err => console.log(err),
-                success: () => console.log("deleted :)")
+                success: data => console.log(data)
             })
             // $.ajax({ method: 'DELETE', url: URL + '/tasks', data: familyArray, error: err => console.log(err), success: data => console.log(data) })
-        saveOrder();
         layTasks(tasks);
     }
     $('#newTaskModal').modal('hide');
@@ -356,7 +348,7 @@ function resetModal() {
     $('#newTaskSubmit').text('Create !');
     $('#newTaskName').val('');
     $('#newTaskDescription').val('');
-    $('#newTaskStatus').val('Unassigned');
+    $('#newTaskStatus').val('Pending');
     $('.task-edit').removeData('task');
     // $('#newTaskSubmit').removeData('task');
 }
@@ -364,16 +356,14 @@ function resetModal() {
 function editTask(name, description, status, taskId) {
     console.log(tasks)
     console.log(taskId)
-    const renewedTask = tasks.find(task => task._id === taskId);
-    renewedTask.name = name;
-    renewedTask.description = description;
-    renewedTask.status = status;
-    console.log(renewedTask)
-    console.log(tasks)
-    saveEdits(renewedTask)
-    tasks.push(renewedTask)
-    saveOrder()
-    layTasks(tasks)
+        // const renewedTask = tasks.find(task => task._id === taskId);
+        // renewedTask.name = name;
+        // renewedTask.description = description;
+        // renewedTask.status = status;
+        // console.log(renewedTask)
+        // console.log(tasks)
+        //     // tasks.push(renewedTask)
+        // layTasks(tasks)
 }
 
 
@@ -398,7 +388,7 @@ const getForNow = {
 function handleSuccess(data) {
     console.log(data);
     data.user.forEach(user => users.push(user));
-    data.task.forEach(task => task.status && getArray(task).push(task));
+    data.task.forEach(task => getArray(task).push(task));
     probject = {
         overview: data.overview || {},
         dueDate: data.date
@@ -452,28 +442,9 @@ function handleTaskCreation(data) {
 // const taskUpdater
 
 
-function saveEdits(toSave) {
-
-    $.ajax({
-        method: 'PUT',
-        url: URL + '/tasks',
-        data: toSave,
-        error: err => err,
-        success: () => console.log('worked')
-
-    })
-
-
-}
 
 
 
-function saveOrder() {
-    const newTasks = [];
-    const sorteds = $('.task-list').sortable('toArray');
-    sorteds.forEach(item => newTasks.push(tasks[Number(item.split('m').pop())]))
-    tasks = newTasks;
-}
 
 
 
