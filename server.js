@@ -124,11 +124,12 @@ app.post('/api/projects/:project_id/tasks', (req, res) => {
 });
 
 // api/project/:project_id/taskarray
-app.post('/api/projects/:project_id/taskarray', (req, res) => {
-    db.Task.create(req.body, (err, newTasks) => {
+app.post('/api/projects/:project_id/taskarray' ,(req,res) => {
+    console.log(req.body)
+    db.Task.create(req.body.task, (err, newTasks) => {
+      if (err) return res.json(err);
+      db.Project.findById(req.params.project_id, (err, foundProject) => {
         if (err) return res.json(err);
-        db.Project.findById(req.params.project_id, (err, foundProject) =>{
-            if(err) return res.json(err);
         for (let i = 0; i < newTasks.length; i++) {
             foundProject.task.push(newTasks[i]);
         }

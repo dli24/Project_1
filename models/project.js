@@ -11,7 +11,6 @@ const ProjectSchema = new Schema({
     }],
     user: Array,
     overview: Object
-
 })
 
 const Project = mongoose.model('Project', ProjectSchema)

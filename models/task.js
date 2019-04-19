@@ -5,11 +5,6 @@ const TaskSchema = new Schema({
     name: String,
     description: String,
     status: String,
-    user: Number
-    // user: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'User'
-    // }
 })
 
 const Task = mongoose.model('Task', TaskSchema);
