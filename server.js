@@ -129,6 +129,8 @@ app.post('/api/projects/:project_id/tasks', (req, res) => {
 app.post('/api/projects/:project_id/taskarray', (req, res) => {
     db.Task.create(req.body, (err, newTasks) => {
         if (err) return res.json(err);
+        db.Project.findById(req.params.project_id, (err, foundProject) => {
+            if(err) return res.json(err);
         // newTasks.forEach(task => {
         //   foundProject.task.push(task);
         // });
