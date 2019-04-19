@@ -35,6 +35,11 @@ $('#userPills').on('change', '.toggler', function() {
 $('#newTask').on('click', () => {
     $('#newTaskModal').modal('toggle')
 })
+//tooltips and popovers and modals oh my !
+$('[data-toggle="tooltip"]').tooltip()
+$('ul').on('click', '.popper', e => $(e.target).popover({ html: true }))
+$('#newTaskModal').on('hide.bs.modal', resetModal) // resets the modal on close 
+
 
 //handles buttons in popover footer
 $('ul').on('shown.bs.popover', '.popper', e => {
@@ -54,6 +59,24 @@ $('ul').on('shown.bs.popover', '.popper', e => {
         }
     })
 })
+
+//modal for task creation and update
+$('.task-edit').submit(function(event) {
+    event.preventDefault();
+    const button = $(event.target);
+    console.log(button);
+    const taskName = $('#newTaskName').val();
+    const taskDesc = $('#newTaskDescription').val();
+    const taskStat = $('#newTaskStatus').val();
+
+    if ($('.task-edit').data('task')) { //sorts new info towards create or update functions
+        console.log($('.task-edit').data('task'))
+        editTask(taskName, taskDesc, taskStat, $('.task-edit').data('task'));
+    } else {
+        createTask(taskName, taskDesc, taskStat);
+    }
+    $('#newTaskModal').modal('hide');
+});
 
 //THIS NEEDS WORK
 $('#hideNonAssigned').on('click', () => {
@@ -116,11 +139,6 @@ function acceptTask(taskId) {
     taskAss.user = currentUser;
     taskAss.status = 'Assigned';
     editTask(taskAss.name, taskAss.description, 'Assigned', taskId, currentUser)
-    // taskAssigments.push(taskAss);
-
-    // saveOrder();
-    // layTasks(tasks);
-
 }
 
 //reassigns and hides completed tasks
@@ -130,8 +148,6 @@ function completeTask(taskId) {
     console.log(toComplete)
     completeTasks.push(toComplete);
     editTask(toComplete.name, toComplete.description, 'Complete', taskId, toComplete.user)
-    // saveOrder();
-    // layTasks(tasks);
 }
 
 
@@ -158,7 +174,6 @@ function toggleUser(user) {
 function editTaskModal(taskId) {
     console.log(taskId);
     const taskEdit = tasks.find(task => task._id === taskId);
-    // console.log(task_id);
     $('#newTaskModalLabel').text('Edit Task');
     $('#newTaskSubmit').text('Do the Edit!');
     $('#newTaskName').val(taskEdit.name);
@@ -194,23 +209,6 @@ function createTask(name, description, status) {
 
 
 
-$('.task-edit').submit(function(event) {
-    event.preventDefault();
-    const button = $(event.target);
-    console.log(button);
-    const taskName = $('#newTaskName').val();
-    const taskDesc = $('#newTaskDescription').val();
-    const taskStat = $('#newTaskStatus').val();
-
-    if ($('.task-edit').data('task')) { //sorts new info towards create or update functions
-        console.log($('.task-edit').data('task'))
-        editTask(taskName, taskDesc, taskStat, $('.task-edit').data('task'));
-    } else {
-        createTask(taskName, taskDesc, taskStat);
-    }
-    $('#newTaskModal').modal('hide');
-});
-
 
 
 $('#deleteTask').click(function(event) {
@@ -220,26 +218,17 @@ $('#deleteTask').click(function(event) {
     if (task.data('task')) {
         num = task.data('task');
         tasks.splice(tasks.findIndex(task => task._id === num), 1)[0]; //updates DOM
-
-
         $.ajax({
                 method: 'DELETE',
                 url: `${URL}/tasks/${num}`,
                 error: err => console.log(err),
                 success: () => console.log("deleted :)")
-        })
-        
+        }) 
         saveOrder();
         layTasks(tasks);
     }
     $('#newTaskModal').modal('hide');
 })
-
-
-
-$('#newTaskModal').on('hide.bs.modal', resetModal)
-
-
 
 function resetModal() {
     console.log('resetting')
@@ -278,10 +267,6 @@ function editTask(name, description, status,  taskId, user) {
 }
 
 
-$('[data-toggle="tooltip"]').tooltip()
-$('ul').on('click', '.popper', e => $(e.target).popover({ html: true }))
-
-
 const getForNow = {
     method: 'GET',
     url: URL,
@@ -304,7 +289,6 @@ function handleSuccess(data) {
     layTasks(tasks);
 }
 
-
 function getArray(task) {
     switch (task.status) {
         case "Stretch":
@@ -318,7 +302,7 @@ function getArray(task) {
             return tasks;
             break;
         default:
-        console.log("you are dumb! try typing: 'partnerFuckUps' into the console");
+        console.log("status error! try typing: 'partnerFuckUps' into the console");
             return partnerFuckUps;
     }
 }
@@ -332,15 +316,15 @@ function handleTaskCreation(data) {
 
 }
 
-function saveEdits(toSave, taskId) {
-    $.ajax({
-        method: 'PUT',
-        url: `${URL}/tasks/${taskId}`,
-        data: toSave,
-        error: err => err,
-        success: () => console.log('worked')
-    })
-}
+// function saveEdits(toSave, taskId) {
+//     $.ajax({
+//         method: 'PUT',
+//         url: `${URL}/tasks/${taskId}`,
+//         data: toSave,
+//         error: err => err,
+//         success: () => console.log('worked')
+//     })
+// }
 
 
 
