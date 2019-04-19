@@ -21,8 +21,8 @@ app.get('/', (req, res) => {
     res.sendFile('views/index.html', { root: __dirname });
 });
 
-app.get('/responsibilities', (req, res) => {
-    res.sendFile('views/responsibilities.html', { root: __dirname });
+app.get('/responsibilities/:project_id', (req, res) => {
+	res.sendFile('views/responsibilities.html', { root: __dirname });
 });
 
 // =============================Project Route================================
@@ -160,6 +160,7 @@ app.put('/api/projects/:project_id/tasks', (req, res) => {
 
 
 //delete task with populate
+<<<<<<< HEAD
 app.delete('/api/projects/:project_id/tasks', (req, res) => {
     const taskToDelete = req.body;
     taskToDelete.forEach(task => {
@@ -168,6 +169,21 @@ app.delete('/api/projects/:project_id/tasks', (req, res) => {
         });
     });
     res.json(taskToDelete)
+=======
+app.delete('/api/projects/:project_id/tasks/:id', (req,res)=>{
+//     const taskToDelete = req.body;
+//     taskToDelete.forEach(task=>{
+//     db.Task.findByIdAndRemove(task._id, (err, deletedTask)=>{
+//         if(err) return res.status(400);
+//     });
+// });
+// res.json(taskToDelete)
+
+db.Task.findByIdAndRemove(req.params.id, (err, deletedTask)=>{
+    if (err) return res.status(500);
+    res.json(deletedTask)
+    });
+>>>>>>> c5de51728a9c50ff14a81229643b3083732ab5bf
 });
 
 app.listen(PORT, () => console.log("port 3000 have linked!"))
