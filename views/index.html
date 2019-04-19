@@ -29,12 +29,12 @@
   </head>
 
   <body>
-    <!-- <nav>
+    <nav>
         <ol class="breadcrumb">
             <li class="active">Project</li>
-            <li><a href="#">Manage</a></li>
+            <li><a href="responsibilities.html">Manage your project</a></li>
         </ol>  
-    </nav> -->
+    </nav>
     <header>
       <section class="hero">
         <div class="inner-hero">
@@ -57,7 +57,7 @@
                     >
                   </h3>
                 </div>
-                <form id="createProject" method="POST" action="http://localhost:3000/api/projects">
+                <form id="createProject" method="POST">
                   <div class="md-form">
                     <input type="text" id="project" name="name" class="form-control" />
                     <label for="form100">Your project name</label>
@@ -89,7 +89,6 @@
         </div>
       </section>
     </header>
-    <button id="help"> click </button>
     <div id="start" class="container project">
       <div class="row">
         <div class="col-sm-9">
@@ -104,9 +103,8 @@
           </div>
           <form method="POST" action="http://localhost:3000/api/projects">
             <div class="form-group">
-                <input type="text" id="MVP" name ="task" class="form-control" />
                 <label for="mvp">MVP</label>
-                <textarea id ="mvp-text" placeholder="What do you need to deliever a viable project? List out your needed functionality" class="form-control" id="mvp" rows="3"></textarea>
+                <textarea id ="mvp" placeholder="What do you need to deliever a viable project? List out your needed functionality" class="form-control" rows="3"></textarea>
               </div>
           </form>
           <div class="form-group">
@@ -155,7 +153,14 @@
                 aria-labelledby="heading1"
               >
                 <div class="panel-body">
-                  <p>something something something</p>
+                  <ul>
+                      <li>
+                          Try talking to your parents
+                      </li>
+                      <li>
+                          Tell Kenny I'm sure he'll do something
+                      </li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -183,7 +188,7 @@
                 <div class="panel-body">
                   <ul>
                     <li>
-                      
+                      Uhhhhh well neither do I apparently... check back for updates
                     </li>
                   </ul>
                 </div>
@@ -216,7 +221,7 @@
                       Take a deep breath
                     </li>
                     <li>
-                      <a href="#">Imposter syndrome</a> affects us all so don't give up before you even try
+                      <a href="https://medium.com/learn-love-code/developers-how-to-overcome-imposter-syndrome-48edee803cf4">Imposter syndrome</a> affects us all so don't give up before you even try
                     </li>
                   </ul>
                 </div>
