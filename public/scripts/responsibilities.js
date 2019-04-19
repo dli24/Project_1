@@ -100,12 +100,17 @@ $('ul').on('shown.bs.popover', '.popper', e => {
     $('.pop-help').on('click', event => {
         $(e.target).popover('hide')
         console.log(event.target)
+        console.log($(event.target).text())
         const taskId = $(event.target).attr('id');
         console.log('task id is  ' + taskId)
         $(event.target).hasClass('accept') ? acceptTask(taskId) : editTaskModal(taskId);
     })
 
 })
+
+function completeTask(taskId){
+
+}
 
 
 $('.idiotCheck').on('hover', () => console.log('you are dumb'));
@@ -154,7 +159,8 @@ function layTasks(taskArray) {
             let taskUser = task.status === 'Assigned' ? task.user : 0;
             let fafa = task.status === 'Assigned' ? '-' : '-circle-';
             let colores = task.status === 'Assigned' ? 'black' : colorWheel[currentUser].color;
-
+            let acceptButton = task.status === 'Assigned' ? 'Complete!' : 'Accept';
+            let acceptButtonColor = task.status === 'Assigned' ? taskUser : currentUser;
 
             console.log('task peopl ' + taskUser)
             let $li = $(`<li class="list-item" id="listItem${index}" style="background-color: ${colorWheel[taskUser].color}">`);
@@ -162,7 +168,7 @@ function layTasks(taskArray) {
             // let $button = $(`<button class="btn btn-${colorWheel[currentUser].bootstrap} popper"></button>`);
 
             console.log(task._id);
-            $button.data({ toggle: 'popover', title: `<h5>${task.name}</h5><button type="button" class="close btn-warning" data-dismiss="popover" aria-label="Close">`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton pop-help' id='${task._id}'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton pop-help accept' id="${task._id}">Accept</a>`, task_id: task._id });
+            $button.data({ toggle: 'popover', title: `<h5>${task.name}</h5><button type="button" class="close btn-warning" data-dismiss="popover" aria-label="Close">`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton pop-help' id='${task._id}'>Edit Task</a> <a class='btn btn-${colorWheel[acceptButtonColor].bootstrap} btn-lg acceptTaskButton pop-help accept' id="${task._id}">${acceptButton}</a>`, task_id: task._id });
             // $button.data({ toggle: 'popover', name: `<h5>${task.name}</h5><a class='btn popclose'>X</a>`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton pop-help' id='${task.task_id}'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton pop-help accept' id="${task.task_id}">Accept</a>`, task_id: task.task_id });
             $li.append($button);
             // console.log($button);
@@ -226,6 +232,27 @@ function acceptTask(taskId) {
     layTasks(tasks);
 
 }
+// function completeTask(taskId) {
+//     console.log(taskId)
+//     console.log('trying to accept ' + taskId)
+//     const taskAss = tasks.find(task => task._id === taskId);
+//     tasks.forEach(task => {
+//         console.log(`does ${task._id} even equal ${taskId} ??`)
+//         console.log(task._id === taskId ? "yes" : "no")
+//         console.log('task.task_id :  ' + typeof(task._id))
+//         console.log('taskId :  ' + typeof(taskId))
+
+//     });
+//     console.log(taskAss);
+//     console.log(taskAss.user)
+//     taskAss.user = currentUser;
+//     taskAss.status = 'Assigned';
+//     taskAssigments.push(taskAss);
+//     console.log(taskAss)
+//     saveOrder();
+//     layTasks(tasks);
+
+// }
 
 
 
@@ -324,20 +351,19 @@ $('#deleteTask').click(function(event) {
     console.log(task)
     if (task.data('task')) {
         num = task.data('task');
-        console.log(num);
+        // console.log("the real task id is ......   " + num);
         const toDelete = tasks.splice(tasks.findIndex(task => task._id === num), 1)[0];
-        // const familyArray = [];
-        // familyArray.push(toDelete)
-        console.log(toDelete)
+
 
         $.ajax({
                 method: 'DELETE',
-                url: URL + '/tasks',
-                data: toDelete,
+                url: URL + '/tasks/' + num,
                 error: err => console.log(err),
                 success: () => console.log("deleted :)")
-            })
+        })
             // $.ajax({ method: 'DELETE', url: URL + '/tasks', data: familyArray, error: err => console.log(err), success: data => console.log(data) })
+        
+        // tasks.splice(tasks.findIndex(task => task._id === num), 1);
         saveOrder();
         layTasks(tasks);
     }
