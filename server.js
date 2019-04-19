@@ -130,28 +130,37 @@ app.post('/api/projects/:project_id/taskarray', (req, res) => {
     db.Task.create(req.body, (err, newTasks) => {
         if (err) return res.json(err);
         db.Project.findById(req.params.project_id, (err, foundProject) => {
-            if (err) return res.json(err);
-            newTasks.forEach(task => {
-                foundProject.task.push(task);
-            });
-            foundProject.save((err, savedProject) => {
-                if (err) return res.json(err);
-                res.json(savedProject);
-            });
+            if(err) return res.json(err);
+        // newTasks.forEach(task => {
+        //   foundProject.task.push(task);
+        // });
+        for (let i = 0; i < newTasks.length; i++) {
+            foundProject.task.push(newTasks[i]);
+        }
+        foundProject.save((err, savedProject) => {
+          if (err) return res.json(err);
+          res.json(savedProject);
         });
+      });
     });
 });
 
 
+// update one Task
+app.put('/api/projects/:project_id/tasks/:id', (req,res)=>{
+    db.Task.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, updateTask)=>{
+    if(err) return res.status(400);
+    res.json(updateTask)
+    });
+});
 
 
-// update task with populate
-app.put('/api/projects/:project_id/tasks', (req, res) => {
+// update array task 
+app.put('/api/projects/:project_id/tasks', (req,res)=>{
     const taskToUpdate = req.body;
-    taskToUpdate.forEach(task => {
-        console.log(task._id);
-        db.Task.findByIdAndUpdate(task._id, task, (err, updatedTask) => {
-            if (err) return res.status(400);
+    taskToUpdate.forEach(task=>{
+        db.Task.findByIdAndUpdate(task._id, task, (err, updatedTask)=>{
+        if(err) return res.status(400);
         });
     });
     res.json(taskToUpdate)
@@ -161,18 +170,21 @@ app.put('/api/projects/:project_id/tasks', (req, res) => {
 
 //delete task with populate
 app.delete('/api/projects/:project_id/tasks/:id', (req,res)=>{
-//     const taskToDelete = req.body;
-//     taskToDelete.forEach(task=>{
-//     db.Task.findByIdAndRemove(task._id, (err, deletedTask)=>{
-//         if(err) return res.status(400);
-//     });
-// });
-// res.json(taskToDelete)
-
-db.Task.findByIdAndRemove(req.params.id, (err, deletedTask)=>{
+    db.Task.findByIdAndRemove(req.params.id, (err, deletedTask)=>{
     if (err) return res.status(500);
     res.json(deletedTask)
     });
 });
 
-app.listen(PORT, () => console.log("port 3000 have linked!"))
+app.delete('/api/projects/:project_id/tasks', (req,res)=>{
+        const taskToDelete = req.body;
+        taskToDelete.forEach(task=>{
+        db.Task.findByIdAndRemove(task._id, (err, deletedTask)=>{
+            if(err) return res.status(400);
+        });
+    });
+    res.json(taskToDelete)
+});
+
+
+app.listen(PORT, ()=>console.log("port 3000 have linked!"))
