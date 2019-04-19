@@ -388,19 +388,42 @@ function resetModal() {
 }
 
 function editTask(name, description, status, taskId) {
-    console.log(tasks)
-    console.log(taskId)
+    
+
+    $.ajax({
+        method: 'PUT',
+        url: URL + '/tasks/' + taskId,
+        data: {
+            name,
+            description, 
+            status
+        },
+        error: err=>console.log(err),
+        success: data=>console.log(data)
+    })
     const renewedTask = tasks.find(task => task._id === taskId);
     renewedTask.name = name;
     renewedTask.description = description;
     renewedTask.status = status;
-    console.log(renewedTask)
-    console.log(tasks)
-    saveEdits(renewedTask)
-    tasks.push(renewedTask)
+
+    // tasks.push(renewedTask)
     saveOrder()
     layTasks(tasks)
 }
+// function editTask(name, description, status, taskId) {
+//     console.log(tasks)
+//     console.log(taskId)
+//     const renewedTask = tasks.find(task => task._id === taskId);
+//     renewedTask.name = name;
+//     renewedTask.description = description;
+//     renewedTask.status = status;
+//     console.log(renewedTask)
+//     console.log(tasks)
+//     saveEdits(renewedTask)
+//     tasks.push(renewedTask)
+//     saveOrder()
+//     layTasks(tasks)
+// }
 
 
 // $('#editTaskButton').on('click', editTaskModal)
@@ -449,6 +472,23 @@ function getArray(task) {
         default:
             console.log('fuuuck the task switched is messed up!')
     }
+}
+
+function editTheseTasks(arry){
+    arry.forEach(tssk => {
+        tssk.name += '123'
+    });
+
+    console.log(arry);
+
+    $.ajax({
+        method: 'PUT',
+        url: URL + '/tasks',
+        data: arry,
+        error: err=>console.log(err),
+        success: data=>console.log(data)
+    })
+
 }
 
 
