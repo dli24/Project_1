@@ -1,5 +1,6 @@
 console.log('sanity check')
 let projectId = '5cb8adbcd3c9d4193791b902'
+const PROJECT_ID = location.href.split('/').pop();
 let probject;
 const URL = `/api/projects/${projectId}`
 let currentUser = 0;
@@ -18,7 +19,6 @@ const colorWheel = [{ color: '#6c757d', bootstrap: 'secondary' }, { color: '#dc3
 //soon-to-be dynamic arrays:
 const deletedTasks = [];
 const completeTasks = [];
-const pendingTasks = [];
 const stretchTasks = [];
 // const tasks = [];
 // const users = [];
@@ -371,7 +371,7 @@ $('[data-toggle="tooltip"]').tooltip()
 $('ul').on('click', '.popper', e => $(e.target).popover({ html: true }))
 
 
-
+// const gobbler = {task: [{status: 'Assigned'}, {status: 'Unassigned'}, {status: 'Complete'}, {status: 'Stretch'}, {status: 'Stretch'}, {status: 'Complete'}, {status: 'Assigned'}, {status: 'Complete'}, {status: 'Unassigned'}, {status: 'Assigned'}]}
 
 
 function handleSuccess(data) {
@@ -381,10 +381,8 @@ function handleSuccess(data) {
     probject = {
         overview: data.overview,
 
+
     }
-
-
-
 }
 
 
