@@ -85,7 +85,6 @@ app.delete('/api/projects/:id', (req,res)=>{
 // Get all Task with Populate
 app.get('/api/projects/:project_id/tasks', (req, res)=>{
     db.Task.find()
-    // .populate('user')
     .exec((err, task)=>{
         if (err) return console.log(`error: ${err}`);
         res.json(task)
@@ -96,7 +95,6 @@ app.get('/api/projects/:project_id/tasks', (req, res)=>{
 //Get one task with Populate
 app.get('/api/projects/:project_id/tasks/:id', (req,res)=>{
     db.Task.findById(req.params.id)
-    // .populate('user')
     .exec((err, task)=>{
         if (err) return res.status(400);
         res.json(task)
@@ -131,9 +129,6 @@ app.post('/api/projects/:project_id/taskarray' ,(req,res) => {
       if (err) return res.json(err);
       db.Project.findById(req.params.project_id, (err, foundProject) => {
         if (err) return res.json(err);
-        // newTasks.forEach(task => {
-        //   foundProject.task.push(task);
-        // });
         for (let i = 0; i < newTasks.length; i++) {
             foundProject.task.push(newTasks[i]);
         }
@@ -158,15 +153,18 @@ app.put('/api/projects/:project_id/tasks/:id', (req,res)=>{
 // update array task 
 app.put('/api/projects/:project_id/tasks', (req,res)=>{
     const taskToUpdate = req.body;
-    taskToUpdate.forEach(task=>{
-        db.Task.findByIdAndUpdate(task._id, task, (err, updatedTask)=>{
+    let updatedTasks = [];
+        for(let i = 0; i < taskToUpdate.length; i++){
+        db.Task.findByIdAndUpdate(taskToUpdate[i]._id, taskToUpdate[i], (err, updatedTask)=>{
         if(err) return res.status(400);
+        updatedTasks.push(updatedTask)
+        if(updatedTasks.length === taskToUpdate.length){
+            res.json(updatedTasks)
+        }
         });
-    });
-    res.json(taskToUpdate)
+    }    
+
 });
-
-
 
 //delete task with populate
 app.delete('/api/projects/:project_id/tasks/:id', (req,res)=>{
@@ -178,12 +176,16 @@ app.delete('/api/projects/:project_id/tasks/:id', (req,res)=>{
 
 app.delete('/api/projects/:project_id/tasks', (req,res)=>{
         const taskToDelete = req.body;
-        taskToDelete.forEach(task=>{
-        db.Task.findByIdAndRemove(task._id, (err, deletedTask)=>{
+        let deletedTasks = [];
+            for(let i = 0; i < taskToDelete.length; i++){
+        db.Task.findByIdAndRemove(taskToDelete[i]._id, taskToDelete[i], (err, deletedTask)=>{
             if(err) return res.status(400);
+            deletedTasks.push(deletedTask)
+            if(deletedTasks.length === taskToDelete.length){
+                res.json(deletedTask)
+            }
         });
-    });
-    res.json(taskToDelete)
+    }
 });
 
 
