@@ -2,20 +2,11 @@
 let text =""
 
 let mvpTasks = []
-mvpTasks.push({
-    name: "mvpTasks",
-    description: 'working',
-    status: "pending"})
 
 
 function getSelectionText() {
   if (window.getSelection) {
     text = window.getSelection().toString()
-    mvpTasks.push({
-    name: "mvpTasks",
-    description: text,
-    status: "pending"
-  });
     console.log(text)
   } else if (document.selection && document.selection.type != "Control") {
     text = document.selection.createRange().text;
@@ -23,7 +14,16 @@ function getSelectionText() {
   return text
 }
 
-$("textarea").on("dragenter", getSelectionText);
+$("textarea").on("dragstart", getSelectionText);
+
+$('.drop-me').on('dragenter', function () {
+     mvpTasks.push({
+     name: "mvpTasks",
+     description: text,
+     status: "pending"
+   });
+   console.log(mvpTasks)
+})
 
 // $(".drop-me").on("dragenter", function(ev) {
 //   ev.preventDefault();
@@ -53,23 +53,63 @@ $("textarea").on("dragenter", getSelectionText);
 //     complete: function() {}
 //   });
 
-
-function postTask() {
-   $.ajax({
+$('#createProject').on('submit', function (e) {
+  e.preventDefault()
+  $.ajax({
     method: "POST",
-    url: "/api/projects/5cb9e61f7c11028574cff98a/taskarray",
-    data: {task: mvpTasks},
+    url: "/api/projects/",
+    data: $(this).serialize(),
     success: function(response) {
-      console.log(response)
+       let jsonData = (response);
+       alert('your unique project id is ' + jsonData._id)
     },
     error: function() {
       alert("There was an error");
     },
-    complete: function() {}
+    complete: function() {
+      const projectID = prompt('enter your unique project id')
+    }
   });
+})
+
+
+function createProject() {
+ $.ajax({
+   method: "POST",
+   url: "/api/projects",
+   data: {},
+   success: function(response) {
+     console.log(response);
+   },
+   error: function() {
+     alert("There was an error");
+   },
+   complete: function() {}
+ });
 }
 
-$("#test1").on("click", postTask);
+function postTask() {
+   $.ajax({
+     method: "POST",
+     url: "/api/projects/" + projectID +"/taskarray",
+     data: { task: mvpTasks },
+     success: function(response) {
+       console.log(response);
+     },
+     error: function() {
+       alert("There was an error");
+     },
+     complete: function() {}
+   });
+}
+
+$("#test1").on("keydown", function(e) {
+  if (e.keycode === 50) {
+    postTask
+  }
+});
+
+
 
 
 
