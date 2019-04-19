@@ -13,12 +13,12 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-  });
+});
 
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-	res.sendFile('views/index.html', { root: __dirname });
+    res.sendFile('views/index.html', { root: __dirname });
 });
 
 app.get('/responsibilities/:project_id', (req, res) => {
@@ -28,62 +28,62 @@ app.get('/responsibilities/:project_id', (req, res) => {
 // =============================Project Route================================
 
 //Get all Project with Populate
-app.get('/api/projects', (req, res)=>{
+app.get('/api/projects', (req, res) => {
     db.Project.find()
-    .populate('task')
-    .exec((err, project)=>{
-        if (err) return res.status(500);
-        res.json(project)
-    });
+        .populate('task')
+        .exec((err, project) => {
+            if (err) return res.status(500);
+            res.json(project)
+        });
 });
 
 
 //Get one project with Populate
-app.get('/api/projects/:id', (req,res)=>{
+app.get('/api/projects/:id', (req, res) => {
     db.Project.findById(req.params.id)
-    .populate('task')
-    .exec((err, project)=>{
-        if (err) return res.status(400);
-        res.json(project)
-    });
+        .populate('task')
+        .exec((err, project) => {
+            if (err) return res.status(400);
+            res.json(project)
+        });
 });
 
-app.post('/api/projects', (req,res)=>{
+app.post('/api/projects', (req, res) => {
     const newProject = new db.Project({
         name: req.body.name,
         date: req.body.date,
         user: req.body.user,
         overview: req.body.overview
     });
-        db.Project.create(newProject, (err,newProjects)=>{
-            if(err)return (err)
-            res.json(newProjects)
-        });
+    db.Project.create(newProject, (err, newProjects) => {
+        if (err) return (err)
+        res.json(newProjects)
+    });
 });
 
 
 //update project with populate
-app.put('/api/projects/:id', (req,res)=>{
-    db.Project.findByIdAndUpdate(req.params.id, req.body, {new: true})
-    .populate('task')
-    .exec((err, updateProject) =>{
-        if (err) return res.status(400);
+app.put('/api/projects/:id', (req, res) => {
+    db.Project.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        .populate('task')
+        .exec((err, updateProject) => {
+            if (err) return res.status(400);
             res.json(updateProject)
-    });
+        });
 });
 
 //delete project with populate
-app.delete('/api/projects/:id', (req,res)=>{
+app.delete('/api/projects/:id', (req, res) => {
     db.Project.findByIdAndRemove(req.params.id)
-    .populate('task')
-    .exec((err, deletedProject)=>{
-        if(err) return res.status(400);
-        res.json(deletedProject)
-    });
+        .populate('task')
+        .exec((err, deletedProject) => {
+            if (err) return res.status(400);
+            res.json(deletedProject)
+        });
 });
 // =========================TASK ROUTE========================================
 // Get all Task with Populate
-app.get('/api/projects/:project_id/tasks', (req, res)=>{
+app.get('/api/projects/:project_id/tasks', (req, res) => {
     db.Task.find()
     .exec((err, task)=>{
         if (err) return console.log(`error: ${err}`);
@@ -93,7 +93,7 @@ app.get('/api/projects/:project_id/tasks', (req, res)=>{
 
 
 //Get one task with Populate
-app.get('/api/projects/:project_id/tasks/:id', (req,res)=>{
+app.get('/api/projects/:project_id/tasks/:id', (req, res) => {
     db.Task.findById(req.params.id)
     .exec((err, task)=>{
         if (err) return res.status(400);
@@ -103,21 +103,21 @@ app.get('/api/projects/:project_id/tasks/:id', (req,res)=>{
 
 
 //create multiple task for one project
-app.post('/api/projects/:project_id/tasks', (req,res)=>{
+app.post('/api/projects/:project_id/tasks', (req, res) => {
     const newTask = new db.Task({
         name: req.body.name,
         description: req.body.description,
         status: req.body.status,
         user: req.body.user
     });
-    db.Project.findOne({_id: req.params.project_id},(err,project)=>{
-        if (err) return res.json({error: err});   
-        newTask.save((err, savedTask)=>{
-            if (err) {return (err)};
+    db.Project.findOne({ _id: req.params.project_id }, (err, project) => {
+        if (err) return res.json({ error: err });
+        newTask.save((err, savedTask) => {
+            if (err) { return (err) };
             project.task.push(savedTask);
-            project.save((err, savedProject)=>{
+            project.save((err, savedProject) => {
                 res.json(savedTask);
-            })          
+            })
         });
     });
 
@@ -130,22 +130,16 @@ app.post('/api/projects/:project_id/taskarray' ,(req,res) => {
       if (err) return res.json(err);
       db.Project.findById(req.params.project_id, (err, foundProject) => {
         if (err) return res.json(err);
-<<<<<<< HEAD
-        newTasks.forEach(task=> {
-          foundProject.task.task.push(task);
-        });
-=======
         for (let i = 0; i < newTasks.length; i++) {
             foundProject.task.push(newTasks[i]);
         }
->>>>>>> 6ffdc1d65911eb077c1dd6cea34bb48c293e9450
         foundProject.save((err, savedProject) => {
           if (err) return res.json(err);
           res.json(savedProject);
         });
       });
     });
-  });
+});
 
 
 // update one Task

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://localhost:3000/responsibilities? -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="./Respawn_files/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="./Respawn_files/bootstrap4-toggle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./Respawn_files/responsibilities.css">
+
+    <script defer="" src="./Respawn_files/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <script defer="" src="./Respawn_files/bootstrap4-toggle.min.js"></script>
+    <!-- <script defer src="/scripts/bootstrapToggle.js"></script> -->
+    <script defer="" src="./Respawn_files/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script defer="" src="./Respawn_files/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script defer="" src="./Respawn_files/jquery-ui.min.js"></script>
+    <script defer="" src="./Respawn_files/responsibilities.js"></script>
+    <title>Respawn</title>
+<script type="text/javascript" src="chrome-extension://aadgmnobpdmgmigaicncghmmoeflnamj/ng-inspector.js"></script></head>
+
+<body class="modal-open">
+    <!-- <div class="fullbody"> -->
+    <ul class="nav nav-pills">
+        <button type="button" id="newTask" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#newTaskModal" data-ugly="you are too ugly" data-manic="get schwilllied">create new task</button>
+        <button type="button" id="hideNonAssigned" class="btn btn-secondary btn-lg">your tasks only</button>
+        <div class="user-pills" id="userPills"><div class="toggle btn btn-outline-danger" data-toggle="toggle" style="width: 87.5px; height: 38px;"><input class="toggler" id="toggle1" type="checkbox" checked="" data-toggle="toggle" data-index="1" data-on="jeremy" data-off="jeremy" data-onstyle="outline-danger" data-offstyle="danger"><div class="toggle-group"><label class="btn btn-outline-danger toggle-on">jeremy</label><label class="btn btn-danger toggle-off">jeremy</label><span class="toggle-handle btn btn-light"></span></div></div><div class="toggle btn btn-outline-primary" data-toggle="toggle" style="width: 77.7969px; height: 38px;"><input class="toggler" id="toggle2" type="checkbox" checked="" data-toggle="toggle" data-index="2" data-on="justin" data-off="justin" data-onstyle="outline-primary" data-offstyle="primary"><div class="toggle-group"><label class="btn btn-outline-primary toggle-on">justin</label><label class="btn btn-primary toggle-off">justin</label><span class="toggle-handle btn btn-light"></span></div></div><div class="toggle btn btn-outline-success" data-toggle="toggle" style="width: 95.1406px; height: 38px;"><input class="toggler" id="toggle3" type="checkbox" checked="" data-toggle="toggle" data-index="3" data-on="jacques" data-off="jacques" data-onstyle="outline-success" data-offstyle="success"><div class="toggle-group"><label class="btn btn-outline-success toggle-on">jacques</label><label class="btn btn-success toggle-off">jacques</label><span class="toggle-handle btn btn-light"></span></div></div><div class="toggle btn btn-outline-info" data-toggle="toggle" style="width: 78.0156px; height: 38px;"><input class="toggler" id="toggle4" type="checkbox" checked="" data-toggle="toggle" data-index="4" data-on="jenna" data-off="jenna" data-onstyle="outline-info" data-offstyle="info"><div class="toggle-group"><label class="btn btn-outline-info toggle-on">jenna</label><label class="btn btn-info toggle-off">jenna</label><span class="toggle-handle btn btn-light"></span></div></div></div>
+        <!-- <button type="button" class="btn btn-secondary btn-sm nametag">user_1</button>
+        <button type="button" class="btn btn-secondary btn-sm nametag">user_2</button>
+        <button type="button" class="btn btn-secondary btn-sm nametag">user_3</button>
+        <button type="button" class="btn btn-secondary btn-sm nametag">user_4</button> -->
+    </ul>
+    <div class="button-control">
+        <button class="btn btn-default btn-circle btn-xl" data-toggle="tooltip" data-placement="right" title="" data-original-title="Connects to the outline"><i class="fa fa-list"></i></button>
+        <button class="btn btn-default btn-circle btn-xl" data-toggle="tooltip" data-placement="right" title="" data-original-title="Tooltips as placeholders"><i class="fa fa-list"></i></button>
+        <button class="btn btn-default btn-circle btn-xl" data-toggle="tooltip" data-placement="right" title="" data-original-title="Third Button"><i class="fa fa-list"></i></button>
+    </div>
+    <div class="container">
+        <div id="console-event"></div>
+
+        <div class="row">
+            <div class="dumb">
+                <ul class="task-list ui-sortable" id="taskList"><li class="list-item" id="listItem0" style="background-color: #6c757d"><i class="fas fa-chevron-circle-right unassigned popper" style="color:#6c757d" data-original-title="" title=""></i><h5>fuck the whole world</h5></li><li class="list-item" id="listItem1" style="background-color: #6c757d"><i class="fas fa-chevron-circle-right unassigned popper" style="color:#6c757d"></i><h5>get drunker</h5></li><li class="list-item" id="listItem2" style="background-color: #6c757d"><i class="fas fa-chevron-circle-right unassigned popper" style="color:#6c757d"></i><h5>get over it</h5></li></ul>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="progress-barea">do not expect a progress bar :)</div>
+        <div class="copyw">@ 2019 david justin zack</div>
+    </footer>
+
+    <!-- TASK EDIT MODAL -->
+
+    <div class="modal fade show" id="newTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-modal="true" style="display: block;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newTaskModalLabel">Edit Task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <form class="task-edit">
+                        <div class="form-group">
+                            <label for="new-task-name" class="col-form-label">Task Name:</label>
+                            <input type="text" class="form-control" id="newTaskName">
+                        </div>
+                        <div class="form-group">
+                            <label for="description-text" class="col-form-label">Description:</label>
+                            <textarea class="form-control" id="newTaskDescription"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-task-status">Task Status:</label>
+                            <select class="form-control" id="newTaskStatus">
+                              <option>Unassigned</option>
+                              <option>Assigned</option>
+                              <option>Stretch</option>
+                              <option>Complete</option>
+                            </select>
+                        </div>
+                </form></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark delete-task" id="deleteTask">Delete Task</button>
+                    <div class="right-buttons">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">nevermind</button>
+                        <button type="submit" class="btn btn-success" id="newTaskSubmit">Do the Edit!</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->
+
+
+<div class="modal-backdrop fade show"></div></body></html>
