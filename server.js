@@ -125,6 +125,25 @@ app.post('/api/projects/:project_id/tasks', (req,res)=>{
 
 });
 
+// api/project/:project_id/taskarray
+app.post('/api/projects/:project_id/taskarray' ,(req,res) => {
+    db.Task.create(req.body, (err, newTasks) => {
+      if (err) return res.json(err);
+      db.Project.findById(req.params.project_id, (err, foundProject) => {
+        if (err) return res.json(err);
+        newTasks.forEach(task => {
+          foundProject.task.push(task);
+        });
+        foundProject.save((err, savedProject) => {
+          if (err) return res.json(err);
+          res.json(savedProject);
+        });
+      });
+    });
+  });
+
+
+
 
 // update task with populate
 app.put('/api/projects/:project_id/tasks', (req,res)=>{
@@ -133,7 +152,7 @@ app.put('/api/projects/:project_id/tasks', (req,res)=>{
         console.log(task._id);
         db.Task.findByIdAndUpdate(task._id, task, (err, updatedTask)=>{
         if(err) return res.status(400);
-        })
+        });
     });
     res.json(taskToUpdate)
 });
