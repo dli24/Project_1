@@ -1,62 +1,93 @@
 
-let text = "";
+let text =""
+
+let mvpTasks = []
+mvpTasks.push({
+    name: "mvpTasks",
+    description: 'working',
+    status: "pending"})
+
 
 function getSelectionText() {
   if (window.getSelection) {
     text = window.getSelection().toString()
-    console.log(text);
+    mvpTasks.push({
+    name: "mvpTasks",
+    description: text,
+    status: "pending"
+  });
+    console.log(text)
   } else if (document.selection && document.selection.type != "Control") {
     text = document.selection.createRange().text;
   }
   return text
 }
 
-// console.log($('#date'))
-// console.log($("#project"));
-// console.log($("#team"));
+$("textarea").on("dragenter", getSelectionText);
 
-
-// function test(){
-//   $('textarea').on("dragstart", getSelectionText);
-//   $('textarea').on('dragend', () => {
-//     console.log('just ended')
-//   })
-  
-// }
-
-// $(function resize () {
-//   var txt = $('#comments'),
-//     hiddenDiv = $(document.createElement('div')),
-//     content = null;
-
-//   txt.addClass('txtstuff');
-//   hiddenDiv.addClass('hiddendiv common');
-
-//   $('body').append(hiddenDiv);
-
-//   txt.on('keyup', function () {
-
-//     content = $(this).val();
-
-//     content = content.replace(/\n/g, '<br>');
-//     hiddenDiv.html(content + '<br class="lbr">');
-
-//     $(this).css('height', hiddenDiv.height());
-
-//   });
+// $(".drop-me").on("dragenter", function(ev) {
+//   ev.preventDefault();
 // });
 
 
+// function createProject() {
+//   $.ajax({
+//     method: 'POST',
+//     url: postUrl,
 
-$('textarea').on('dragstart', getSelectionText)
-//  $('textarea').on('dragenter', getSelectionText);
+
+
+//   });
+// }
+
+// function getProject() {
+//   $.ajax({
+//     method: "GET",
+//     url: getURL,
+//     success: function(req) {
+//       console.log(req);
+//     },
+//     error: function() {
+//       alert("There was an error getting weather data.");
+//     },
+//     complete: function() {}
+//   });
+
+
+function postTask() {
+   $.ajax({
+    method: "POST",
+    url: "/api/projects/5cb9e61f7c11028574cff98a/taskarray",
+    data: {task: mvpTasks},
+    success: function(response) {
+      console.log(response)
+    },
+    error: function() {
+      alert("There was an error");
+    },
+    complete: function() {}
+  });
+}
+
+$("#test1").on("click", postTask);
 
 
 
-$('.drop-me').on('dragenter', function (ev) {
-  ev.preventDefault()
-  console.log(text)
-})
 
-// $('textarea').autoResize()
+// $("#help").on("click", request);
+
+// $("#help").on("click", request);
+
+
+
+
+// function request () { $.ajax({
+//   dataType: "json",
+//   url: "/api/projectsprojects/5cb9e61f7c11028574cff98a/taskarray",
+//   method: "POST",
+//   data: { "": mvpTasks }
+// })};
+
+
+// $('#help').on('click', request)
 
