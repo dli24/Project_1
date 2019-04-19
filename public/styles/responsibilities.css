@@ -15,7 +15,14 @@ body {
     align-content: center;
     height: 100vh;
     width: 100vw;
+    font-family: Arial, Helvetica, sans-serif;
 }
+
+i{
+    font-size: 1.2rem;
+    /* color: slategrey; */
+}
+
 
 header {
     height: 10vh;
@@ -27,18 +34,6 @@ header {
 }
 
 
-/* .fullbody {
-    position: fixed;
-    height: 100vh;
-    width: 100vw;
-    background: rgba(255, 255, 255, .5);
-} */
-
-
-/* .active {
-    background: red !important;    
-} */
-
 .nav {
     position: absolute;
     top: 2vh;
@@ -47,19 +42,9 @@ header {
     width: 80vw;
     margin: auto;
     justify-content: space-between;
-    /* border-radius: 40%;  */
     padding: 0 10px;
-    /* align-content: center; */
 }
 
-
-/* .nav>* {
-    flex: 1;
-}
-
-.user-pills {
-    flex: 2;
-} */
 
 .user-pills {
     width: 40vw;
@@ -92,9 +77,8 @@ main {
     flex-direction: column;
     justify-content: space-around;
     height: 50vh;
-    /* margin-top: 20px; */
     position: absolute;
-    left: 2vw;
+    left: 1vw;
     top: 20vh;
 }
 
