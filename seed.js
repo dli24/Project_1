@@ -4,34 +4,52 @@ const project_list = [
     {
         name: "Project Testing 1",
         task: "task list Testing 1",
-        date: 01/02/1992
+        date: '1992-05-12'
     },
     {
         name: "Project Testing 2",
         task: "task list Testing 2",
-        date: 01/02/1993
+        date: '1992-12-12'
     },
     {
         name: "Project Testing 3",
         task: "task list Testing 3",
-        date: 01/02/1991
+        date: '1993-12-12'
     }
 ]
 
 const task_list = [
     {
         name: "task list Testing 1",
-        description: "description testing 1"
+        description: "description testing 1",
+        status: "Good Status"
     },
     {
         name: "task list Testing 2",
-        description: "description testing 2"
+        description: "description testing 2",
+        status: "Bad"
     },
     {
         name: "task list Testing 3",
-        description: "description testing 3"
+        description: "description testing 3",
+        status: "decent status"
     }
 ]
+
+const user_list = [
+    {
+        name: "person number one"
+    },
+    {
+        name: "person number two"
+    },
+    {
+        name: "person number three"
+    }
+]
+
+
+
 
 
 
@@ -46,27 +64,38 @@ db.Task.deleteMany({}, function(err, tasks){
         console.log("create", tasks.length, "task")
     
 
-    db.Project.deleteMany({}, function(err, projects){
-        console.log('removed all project');
-        project_list.forEach(function (projectData){
-            const project = new db.Project({
-                name: projectData.name,
-                date: projectData.date
-            });
-        db.Task.findOne({name: projectData.task}, function(err, foundTask){
-                if (err){
-                    console.log(err);
-                    return;
-                }
-        project.task = foundTask;
-        project.save(function(err, savedProject){
-            if (err) {
-                console.log(err);
-            }
-            console.log('saved' + savedProject)
-          });
-       });
-     });
-   });
+    db.User.deleteMany({}, function(err, deletedUsers) {
+        if (err) return console.log(err);
+        db.User.create({user_list}, function (err, newUser) {
+            if (err) return console.log(err);
+
+            db.Project.deleteMany({}, function(err, projects){
+                console.log('removed all project');
+                project_list.forEach(function (projectData){
+                    const project = new db.Project({
+                        name: projectData.name,
+                        date: projectData.date,
+                    });
+
+                db.Task.findOne({name: projectData.task}, function(err, foundTask){
+                        if (err){
+                            console.log(err);
+                            return;
+                        }
+
+                project.task = foundTask;
+                foundTask.user = newUser;
+                project.user.push(newUser);
+                project.save(function(err, savedProject){
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log('saved' + savedProject)
+                  });
+               });
+             });
+           });
+        })
+    })
  });
 });

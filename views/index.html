@@ -1,24 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./styles/styles.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Document</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <script defer src="./scripts/jquery-3.3.1.js"></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      defer
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script defer src="./scripts/app.js"></script>
+    <title></title>
+  </head>
 
+  <body>
+    <!-- <nav>
+        <ol class="breadcrumb">
+            <li class="active">Project</li>
+            <li><a href="#">Manage</a></li>
+        </ol>  
+    </nav> -->
+    <header>
+      <section class="hero">
+        <div class="inner-hero">
+          <!-- <h1>Welcome!</h1> -->
+          <div class="container">
+            <h2>create a project</h2>
+            <div
+              class="card card-image"
+              style="background-image: url('https://images.unsplash.com/photo-1493612276216-ee3925520721?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80');"
+            >
+              <div class="text-white rgba-stylish-strong py-5 px-5 z-depth-4">
+                <!--Header-->
+                <div class="text-center">
+                  <h3
+                    class="white-text mb-5 mt-4 font-weight-bold text-uppercase"
+                  >
+                    <strong>Create your project</strong>
+                    <a class="green-text font-weight-bold"
+                      ><strong></strong></a
+                    >
+                  </h3>
+                </div>
+                <form id="createProject" method="POST" action="http://localhost:3000/api/projects">
+                  <div class="md-form">
+                    <input type="text" id="project" name="name" class="form-control" />
+                    <label for="form100">Your project name</label>
+                  </div>
+  
+                  <div class="md-form">
+                    <input type="text" id="team" name ="user" class="form-control" />
+                    <label for="form101">Team members</label>
+                  </div>
+  
+                  <div class="md-form">
+                    <input type="date" id="date" name = "date" class="form-control" />
+                    <label for="form102">Due date</label>
+                  </div>
 
-
-
-    
-    
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="./scripts/app.js"></script>
-</body>
+                  <!--Grid row-->
+                  <div class="row d-flex align-items-center">
+                    <!--Grid column-->
+                    <div class="text-center col-md-12 mt-3 mb-2">
+                      <button id="test1" type="submit" class="btn btn-warning btn-block btn-rounded z-depth-1" >Start your project</button>
+                    </div>
+                </form>
+                  <!--Grid column-->
+                </div>
+                <!--Grid row-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </header>
+    <button id="help"> click </button>
+    <div id="start" class="container project">
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="form-group">
+            <label for="overview">Overview</label>
+            <textarea id "lol" 
+              placeholder="Discuss with your group or by yourself and write down your ideas and hopes for the project"
+              class="form-control"
+              id="overview"
+              rows="3"
+            ></textarea>
+          </div>
+          <form method="POST" action="http://localhost:3000/api/projects">
+            <div class="form-group">
+                <input type="text" id="MVP" name ="task" class="form-control" />
+                <label for="mvp">MVP</label>
+                <textarea id ="mvp-text" placeholder="What do you need to deliever a viable project? List out your needed functionality" class="form-control" id="mvp" rows="3"></textarea>
+              </div>
+          </form>
+          <div class="form-group">
+            <label for="strech">Strech Goals</label>
+            <textarea id ="stretch-text"
+              placeholder="Some features you'd like to implement but aren't necessary to deliver your mvp"
+              class="form-control"
+              id="strech"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+        <div  class="col-sm drop-me">
+          Drop in bin is going to go over here
+        </div>
+      </div>
+    </div>
+    <div class="container project">
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="panel-group"
+            id="accordion"
+            role="tablist"
+            aria-multiselectable="true"
+          >
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="heading1">
+                <h4 class="panel-title">
+                  <a
+                    class="collapsed"
+                    data-toggle="collapse"
+                    data-parent="#accordion"
+                    href="#collapse1"
+                    aria-expanded="false"
+                    aria-controls="collapse1"
+                  >
+                    Having trouble working with your team?
+                  </a>
+                </h4>
+              </div>
+              <div
+                id="collapse1"
+                class="panel-collapse collapse"
+                role="tabpanel"
+                aria-labelledby="heading1"
+              >
+                <div class="panel-body">
+                  <p>something something something</p>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="heading2">
+                <h4 class="panel-title">
+                  <a
+                    class="collapsed"
+                    data-toggle="collapse"
+                    data-parent="#accordion"
+                    href="#collapse2"
+                    aria-expanded="false"
+                    aria-controls="collapse2"
+                  >
+                    I'm not sure where to begin
+                  </a>
+                </h4>
+              </div>
+              <div
+                id="collapse2"
+                class="panel-collapse collapse"
+                role="tabpanel"
+                aria-labelledby="heading2"
+              >
+                <div class="panel-body">
+                  <ul>
+                    <li>
+                      
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="heading3">
+                <h4 class="panel-title">
+                  <a
+                    class="collapsed"
+                    data-toggle="collapse"
+                    data-parent="#accordion"
+                    href="#collapse3"
+                    aria-expanded="false"
+                    aria-controls="collapse3"
+                  >
+                    I don't think I can do this
+                  </a>
+                </h4>
+              </div>
+              <div
+                id="collapse3"
+                class="panel-collapse collapse"
+                role="tabpanel"
+                aria-labelledby="heading3"
+              >
+                <div class="panel-body">
+                  <ul>
+                    <li>
+                      Take a deep breath
+                    </li>
+                    <li>
+                      <a href="#">Imposter syndrome</a> affects us all so don't give up before you even try
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="heading4">
+                <h4 class="panel-title">
+                  <a
+                    class="collapsed"
+                    data-toggle="collapse"
+                    data-parent="#accordion"
+                    href="#collapse4"
+                    aria-expanded="false"
+                    aria-controls="collapse4"
+                  >
+                  </a>
+                </h4>
+              </div>
+              <div
+                id="collapse4"
+                class="panel-collapse collapse"
+                role="tabpanel"
+                aria-labelledby="heading4"
+              >
+                <div class="panel-body">
+                  <p></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
