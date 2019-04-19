@@ -1,9 +1,10 @@
 console.log('sanity check')
-let projectId = 'duuuude+the+PROJECTID'
+let projectId = '5cb8adbcd3c9d4193791b902'
+let probject;
 const URL = `/api/projects/${projectId}`
 let currentUser = 0;
 let idCounter = 100;
-
+let myApiCall;
 
 function groupId() {
     return '' + idCounter
@@ -16,43 +17,59 @@ const colorWheel = [{ color: '#6c757d', bootstrap: 'secondary' }, { color: '#dc3
 
 //soon-to-be dynamic arrays:
 const deletedTasks = [];
+const completeTasks = [];
+const pendingTasks = [];
+const stretchTasks = [];
+// const tasks = [];
+// const users = [];
 const users = [{ user_id: 0 },
     { name: 'zack', user_id: 1234 },
     { name: 'david', user_id: 2345 },
     { name: 'justin', user_id: 3456 }
 ];
 
-const tasks = [{ title: "get drunk", description: "this is mainly a drinking activity but people also sometimes use other methods for getting alcohol into their bodies", task_id: '9990999', user: { name: 'david', user_id: 2345 }, status: 'assigned' },
-    { title: "do work", description: "just another description for another activity", task_id: '3344334', status: 'unassigned' },
-    { title: "go Global", description: "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.", task_id: '1234567', status: 'unassigned' },
-    { title: "Allons-y", description: "There's something that doesn't make sense. Let's go and poke it with a stick. Brave heart, Clara. I once spent a hell of a long time trying to get a gobby Australian to Heathrow airport. Oh, I always rip out the last page of a book.", task_id: '932345', status: 'flex' },
+const tasks = [{ name: "get drunk", description: "this is mainly a drinking activity but people also sometimes use other methods for getting alcohol into their bodies", task_id: '9990999', user: { name: 'david', user_id: 2345 }, status: 'assigned' },
+    { name: "do work", description: "just another description for another activity", task_id: '3344334', status: 'unassigned' },
+    { name: "go Global", description: "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.", task_id: '1234567', status: 'unassigned' },
+    { name: "Allons-y", description: "There's something that doesn't make sense. Let's go and poke it with a stick. Brave heart, Clara. I once spent a hell of a long time trying to get a gobby Australian to Heathrow airport. Oh, I always rip out the last page of a book.", task_id: '932345', status: 'flex' },
 ];
 
 
 
-function callDavid(type, data, url = URL) {
-    console.log('duude')
+function callDavid(method, data, url = URL) {
+    // console.log('duude')
+
+    // let noGood;
     const apiCall = {
-        type,
+        method,
         url,
         data,
-        dataType: "dataType",
-        success: handleSuccess,
-        error: handleError
+        // dataType: "dataType",
+        success: res => res,
+        // success: res => console.log(res),
+        // success: handleSuccess,
+        error: err => console.log(err)
     };
 
-    function handleSuccess(data) { console.log(data) }
+    // console.log(apiCall)
 
-    function handleError(error) { console.log(error) }
 
-    $.ajax(apiCall);
+
+    // function handleError(error) { console.log(error) }
+
+    // $.ajax(apiCall)
+
+    return $.ajax(apiCall);
 }
 
 
 const practice = {
     method: 'GET',
     url: URL,
-    success: () => console.log('success'),
+    success: data => {
+        console.log(practice);
+        // console.log(data)
+    },
     error: () => console.log('error')
 };
 
@@ -113,9 +130,9 @@ function layUsers(userArray) {
 $('#hideNonAssigned').on('click', () => {
     // console.log(tasks.filter(task => tasks.user === users[currentUser]))
     tasks.forEach(task => {
-        console.log(tasks.user.name || false)
-        console.log(users[currentUser].name || false)
-
+        console.log(task.user)
+        console.log(task.user ? task.user.name : task.name + " has no user man")
+            // console.log(users[currentUser].name ? users[currentUser] : false)
 
     });
     // layTasks(tasks.filter(task => tasks.user.name || false === users[currentUser].name))
@@ -138,11 +155,11 @@ function layTasks(taskArray) {
         // let $button = $(`<button class="btn btn-${colorWheel[currentUser].bootstrap} popper"></button>`);
 
         console.log(task.task_id);
-        $button.data({ toggle: 'popover', title: `<h5>${task.title}</h5><button type="button" class="close btn-warning" data-dismiss="popover" aria-label="Close">`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton pop-help' id='${task.task_id}'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton pop-help accept' id="${task.task_id}">Accept</a>`, task_id: task.task_id });
-        // $button.data({ toggle: 'popover', title: `<h5>${task.title}</h5><a class='btn popclose'>X</a>`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton pop-help' id='${task.task_id}'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton pop-help accept' id="${task.task_id}">Accept</a>`, task_id: task.task_id });
+        $button.data({ toggle: 'popover', title: `<h5>${task.name}</h5><button type="button" class="close btn-warning" data-dismiss="popover" aria-label="Close">`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton pop-help' id='${task.task_id}'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton pop-help accept' id="${task.task_id}">Accept</a>`, task_id: task.task_id });
+        // $button.data({ toggle: 'popover', name: `<h5>${task.name}</h5><a class='btn popclose'>X</a>`, content: `<p>${task.description}</p> <a class='btn btn-secondary btn-lg editTaskButton pop-help' id='${task.task_id}'>Edit Task</a> <a class='btn btn-${colorWheel[currentUser].bootstrap} btn-lg acceptTaskButton pop-help accept' id="${task.task_id}">Accept</a>`, task_id: task.task_id });
         $li.append($button);
         // console.log($button);
-        $li.append(`<h5>${task.title}</h5>`)
+        $li.append(`<h5>${task.name}</h5>`)
 
         $('.task-list').append($li);
 
@@ -228,7 +245,7 @@ function editTaskModal(taskId) {
     // console.log(task_id);
     $('#newTaskModalLabel').text('Edit Task');
     $('#newTaskSubmit').text('Do the Edit!');
-    $('#newTaskName').val(taskEdit.title);
+    $('#newTaskName').val(taskEdit.name);
     $('#newTaskDescription').val(taskEdit.description);
     $('#newTaskStatus').val(taskEdit.status)
     $('.task-edit').data('task', taskId);
@@ -241,19 +258,40 @@ function editTaskModal(taskId) {
 
 
 
-function createTask(title, description, status) {
+function createTask(name, description, status) {
     const newTask = {
-        title,
+        name,
         description,
         status,
-        task_id: groupId()
     }
 
-    console.log(newTask)
-    tasks.push(newTask)
-    layTasks(tasks)
-    idCounter++
+    $.ajax({
+        method: 'POST',
+        url: URL + '/tasks',
+        data: newTask,
+        error: err => console.log(err),
+        success: handleTaskCreation
+    })
+
+
+    // console.log(newTask)
+    // tasks.push(newTask)
+    // layTasks(tasks)
+    // idCounter++
 }
+// function createTask(name, description, status) {
+//     const newTask = {
+//         name,
+//         description,
+//         status,
+//         task_id: groupId()
+//     }
+
+//     console.log(newTask)
+//     tasks.push(newTask)
+//     layTasks(tasks)
+//     idCounter++
+// }
 
 
 $('#newTask').on('click', () => {
@@ -314,10 +352,10 @@ function resetModal() {
     // $('#newTaskSubmit').removeData('task');
 }
 
-function editTask(title, description, status, taskId) {
+function editTask(name, description, status, taskId) {
     console.log(tasks)
     const renewedTask = tasks.find(task => task.task_id === Number(taskId));
-    renewedTask.title = title;
+    renewedTask.name = name;
     renewedTask.description = description;
     renewedTask.status = status;
     console.log(renewedTask)
@@ -331,3 +369,62 @@ function editTask(title, description, status, taskId) {
 
 $('[data-toggle="tooltip"]').tooltip()
 $('ul').on('click', '.popper', e => $(e.target).popover({ html: true }))
+
+
+
+
+
+function handleSuccess(data) {
+    console.log(data);
+    data.user.forEach(user => users.push(user));
+    data.task.forEach(task => getArray(task).push(task));
+    probject = {
+        overview: data.overview,
+
+    }
+
+
+
+}
+
+
+function getArray(task) {
+    switch (task.status) {
+        case "Stretch":
+            return stretchTasks;
+            break;
+        case "Complete":
+            return completeTasks;
+            break;
+        case "Unassigned":
+        case "Assigned":
+            return tasks;
+            break;
+        default:
+            console.log('fuuuck the task switched is messed up!')
+    }
+}
+
+
+
+
+
+function sendToDatabase() {
+    updatedProbject = probject;
+    tasks.forEach(task => {
+        if (task.task_id.length < 4) {
+            delete task.task_id;
+        }
+
+    })
+    updatedProbject.task = tasks.concat(stretchTasks, completeTasks);
+}
+
+function handleTaskCreation(data) {
+    console.log('you did it!')
+    console.log(data)
+    tasks.push(data)
+    console.log(tasks)
+        // layTasks(tasks)
+
+}
